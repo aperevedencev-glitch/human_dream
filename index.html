@@ -267,11 +267,11 @@ body.m3on{overflow:hidden}
 @media (min-width:520px){.acts{grid-template-columns:1fr 1fr 1fr}}
 
 /* region meters: big, stacked */
-.stats{grid-template-columns:1fr!important;gap:14px!important;margin-top:12px!important}
-.stats .bar .h{font-size:19px;align-items:baseline}
-.stats .bar .h b{font-size:36px;font-family:var(--display);line-height:1}
-.stats .track{height:24px;border-radius:12px}
-.stats .track i{border-radius:12px}
+.stats,.bars{grid-template-columns:1fr!important;gap:14px!important;margin-top:12px!important}
+.stats .bar .h,.bars .bar .h{font-size:19px;align-items:baseline}
+.stats .bar .h b,.bars .bar .h b{font-size:36px;font-family:var(--display);line-height:1}
+.stats .track,.bars .track{height:24px;border-radius:12px}
+.stats .track i,.bars .track i{border-radius:12px}
 /* timed decisions */
 .choice .ctime{margin:12px 0 14px}
 .ctrack{height:10px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden}
@@ -484,8 +484,8 @@ body{font-size:35px!important}
 .m3help{font-size:30px!important}
 .gtoc button{font-size:30px!important}
 .here small{font-size:30px!important}
-.stats .bar .h{font-size:36px!important}
-.stats .bar .h b{font-size:57.6px!important}
+.stats .bar .h,.bars .bar .h{font-size:36px!important}
+.stats .bar .h b,.bars .bar .h b{font-size:57.6px!important}
 .choice .tm{font-size:32.5px!important}
 .choice .tm b{font-size:36px!important}
 .drow .dh{font-size:32.5px!important}
@@ -521,7 +521,7 @@ body{font-size:35px!important}
 .rchips{gap:10px}
 #globe{max-width:min(100%,calc(100dvh - 330px))!important}
 .site .track,.ctrack{height:14px}.dtrack{height:18px}
-.stats .track{height:30px}
+.stats .track,.bars .track{height:30px}
 .rc i{width:16px;height:16px}
 .rc{padding:8px 14px}.chip{padding:8px 14px}
 .pips i{width:22px!important;height:22px!important}
