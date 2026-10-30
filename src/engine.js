@@ -78,6 +78,20 @@ const HEROES=[
   act:{t:'Искупление',per:'cycle',ap:0,d:'Раз за цикл: голод Тьмы −35, но страх там, где стоит Вера, +15',run(s,r){s.hunger=clamp(s.hunger-35,0,100);r.fear=clamp(r.fear+15,0,100);}}}
 ];
 const heroOf=s=>HEROES.find(h=>h.id===s.hero)||HEROES[0];
+const hasH=(s,id)=>s.team?!!s.team[id]:s.hero===id;
+const atH=(s,i)=>s.team?Object.values(s.team).some(t=>t.at===i):i===s.heroAt;
+/* ---------- co-op: several heroes, one shared world ---------- */
+const TEAM_IDS=['kruglov','severova','voronov'];
+const TEAMS={a:{name:'Первая команда',ids:['kruglov','severova','voronov']},b:{name:'Вторая команда',ids:['malyshev','vera','svetlov']}};
+function teamIn(s,id){const t=s.team[id];s.hero=id;s.heroAt=t.at;s.heroEpoch=t.epoch;s.heroUsed=t.used;s.freeMove=t.free;s.ap=t.ap;s.apMax=t.apMax;}
+function teamOut(s,id){const t=s.team[id];t.at=s.heroAt;t.epoch=s.heroEpoch;t.used=s.heroUsed;t.free=s.freeMove;t.ap=s.ap;}
+function newTeamGame(lvl,legacy,seed,ids){ids=ids||TEAM_IDS;const s=newGame(lvl,legacy,seed,ids[0]);const apM=s.civ.k==='tyrant'?1:2;
+  const byFear=[...s.regions].sort((a,b)=>b.fear-a.fear).map(r=>r.id);s.team={};
+  ids.forEach((id,i)=>{const at=s.civ.k==='human'?(HERO_START17[id]||0):byFear[i%byFear.length];s.team[id]={at,epoch:0,used:0,free:1,ap:apM,apMax:apM,ready:0,pid:null,name:''};});
+  if(ids[0]==='vera'){s.light-=8;s.know-=4;}
+  if(ids.includes('vera')){s.light+=4;s.know+=2;}
+  s.goal=Math.round(s.goal*(ids.includes('malyshev')?1.35:1.2));s.coop=1;teamIn(s,ids[0]);return s;}
+
 const HERO_START17={kruglov:0,severova:0,gromov:0,voronov:2,astra:4,svetlov:1,malyshev:1,vera:2};
 function moveCost(s,to){const at=s.regions[s.heroAt];if(to===s.heroAt)return {why:'Герой уже здесь'};if(!at.nb.includes(to))return {why:'Только на соседний материк'};
   if(s.freeMove>0)return {free:true};if(s.ap<1)return {why:'Нет действий'};return {ap:1};}
@@ -475,9 +489,9 @@ function endEpoch(s){
     fearAdd[i]+=d+(rng()-.5)*3;
     if(r.fear>spreadAt)for(const j of r.nb)fearAdd[j]+=4;
   });
-  R.forEach((r,i)=>{r.fear+=fearAdd[i]-relief[i]-(i===s.heroAt?2:0);});
+  R.forEach((r,i)=>{r.fear+=fearAdd[i]-relief[i]-(atH(s,i)?2:0);});
   // nightmares
-  for(const r of R){if(r.fear>=90){const d=kill(s,r,s.hero==='astra'?6:12);if(d)notes.push(`Кошмар в «${r.name}»: погибло ${d}`);}else if(r.fear<40&&k!=='ice')r.pop+=2;}
+  for(const r of R){if(r.fear>=90){const d=kill(s,r,hasH(s,'astra')?6:12);if(d)notes.push(`Кошмар в «${r.name}»: погибло ${d}`);}else if(r.fear<40&&k!=='ice')r.pop+=2;}
   // AI emergence
   const cores=R.filter(r=>r.b.core).length;
   if(!s.ai&&(cores>=2||(k==='machine'&&s.epoch>=3))&&has(s,3)){
@@ -488,13 +502,13 @@ function endEpoch(s){
   // income
   const tyr=k==='tyrant'?1.5:1;
   const lightIn=Math.max(0,Math.round((3+R.reduce((a,r)=>a+r.love,0)/40)*tyr));
-  const knowIn=1+R.filter(r=>r.b.lab).length*(k==='tech'||k==='self'?5:3)+cores+(s.hero==='severova'?2:s.hero==='astra'?1:0)+(s.hero==='voronov'?R.filter(r=>r.b.lab).length:0);
+  const knowIn=1+R.filter(r=>r.b.lab).length*(k==='tech'||k==='self'?5:3)+cores+(hasH(s,'severova')?2:0)+(hasH(s,'astra')?1:0)+(hasH(s,'voronov')?R.filter(r=>r.b.lab).length:0);
   let memIn=R.reduce((a,r)=>a+r.love,0)/75+R.filter(r=>r.b.temple).length*.8;
   s.light+=lightIn;s.know+=knowIn;s.memory+=memIn;
   if(k==='forget'){const temples=R.filter(r=>r.b.temple).length;const loss=Math.max(0,Math.round(s.memory*(.12-temples*.02)-s.souls/40));s.memory-=loss;if(loss)notes.push(`Забвение: Память −${loss}`);}
   // hunger
   let hRate=C.hunger*(s.ai==='hostile'?1.5:1)*(k==='human'?oneMult:1)+(k==='mirrors'?R.filter(r=>r.b.mirror).length*.15:0);
-  s.hunger+=avgFear(s)/9*hRate*(s.hero==='gromov'?.75:1);
+  s.hunger+=avgFear(s)/9*hRate*(hasH(s,'gromov')?.75:1);
   norm(s);
   if(s.hunger>=100){
     const t=[...R].sort((a,b)=>b.fear-a.fear)[0];t.fear+=28;const d=kill(s,t,15);for(const j of t.nb)R[j].fear+=8;
@@ -503,7 +517,7 @@ function endEpoch(s){
   for(const t of notes)log(s,t,'bad');
   s.lastIncome={light:lightIn,know:knowIn,memory:Math.round(memIn)};
   checkEnd(s,true);
-  if(!s.over){s.epoch++;s.ap=s.apMax;s.freeMove=1;drawEvent(s);}
+  if(!s.over){s.epoch++;s.ap=s.apMax;s.freeMove=1;if(s.team)for(const id in s.team){const t=s.team[id];t.ap=t.apMax;t.free=1;t.ready=0;}drawEvent(s);}
 }
 function checkEnd(s,epochEnd){
   if(s.over)return;const C=s.civ;
@@ -521,6 +535,6 @@ function checkEnd(s,epochEnd){
   if(epochEnd&&s.epoch>=s.maxEpoch)s.over={win:false,why:'Время цикла вышло. Куратор начинает Очищение.'};
 }
 function stars(s){if(!s.over||!s.over.win)return 0;let st=1;if(avgFear(s)<40)st++;if(s.lost<=s.initPop*.15)st++;return st;}
-return {RITE_TIME,jobsOf,BUILD_TIME,BUILD_STAGES,fmtDur,siteInfo,tickBuilds,rushCost,rush,serialize,deserialize,moveCost,moveHero,contOf,HEROES,heroOf,DAYS,CIVS,LAWS,ACTIONS,EVENTS,ONEIROS_STAGES,newGame,actionsFor,act,endEpoch,choose,avgFear,avgLove,totalPop,stars,lawsOpen};
+return {TEAMS,TEAM_IDS,teamIn,teamOut,newTeamGame,RITE_TIME,jobsOf,BUILD_TIME,BUILD_STAGES,fmtDur,siteInfo,tickBuilds,rushCost,rush,serialize,deserialize,moveCost,moveHero,contOf,HEROES,heroOf,DAYS,CIVS,LAWS,ACTIONS,EVENTS,ONEIROS_STAGES,newGame,actionsFor,act,endEpoch,choose,avgFear,avgLove,totalPop,stars,lawsOpen};
 })();
 if(typeof module!=='undefined')module.exports=ENGINE;

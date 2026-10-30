@@ -400,6 +400,46 @@ body.m3on{overflow:hidden}
   #scrTitle .intro .mansionbtn{grid-column:1/-1}
 }
 
+
+/* ===== co-op ===== */
+.coopbtn{display:grid;gap:3px;width:100%;text-align:left;padding:14px 16px;border-radius:16px;margin-top:4px;background:linear-gradient(110deg,rgba(111,211,255,.14),rgba(155,125,255,.12) 60%,rgba(232,194,122,.1));border:1px solid rgba(111,211,255,.4);color:var(--ink)}
+.coopbtn b{font-family:var(--display);font-size:20px}.coopbtn small{color:var(--dim);font-size:12px}
+.team{display:grid;gap:6px;margin-top:8px}
+.tmb{display:grid;grid-template-columns:38px minmax(0,1fr) auto auto;gap:8px;align-items:center;padding:5px 8px 5px 5px;border-radius:12px;background:var(--panel);border:1px solid var(--rule)}
+.tmb.me{border-color:var(--gold);background:linear-gradient(90deg,#e8c27a1f,transparent)}
+.tmb.empty{opacity:.55}
+.tmb img{width:38px;height:38px;border-radius:9px;object-fit:cover;object-position:center 25%}
+.tmb b{display:block;font-size:13px}.tmb small{display:block;font-size:11px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tmb i{font-style:normal;color:var(--gold);letter-spacing:2px;font-size:12px}
+.tmb em{font-style:normal;color:var(--good);font-weight:700;font-size:16px}
+.fld{display:grid;gap:4px;margin:8px 0}.fld span{font-size:12px;color:var(--dim)}
+.fld input,.fld select,.cbox input{font:inherit;color:var(--ink);background:var(--panel-2);border:1px solid var(--rule);border-radius:10px;padding:9px 11px;min-width:0}
+.cbox{border:1px solid var(--rule);border-radius:14px;padding:10px 12px;margin:10px 0;display:grid;gap:6px}
+.cbox>b{font-size:14px}
+.rcode{font-family:var(--body);letter-spacing:.18em;color:var(--gold);background:var(--panel-2);border:1px solid var(--gold-2);border-radius:10px;padding:2px 10px}
+.seats{display:grid;gap:8px;margin:12px 0}
+.seat{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px;border-radius:14px;background:var(--panel);border:1px solid var(--rule)}
+.seat.me{border-color:var(--gold)}
+.seat img{width:56px;height:56px;border-radius:12px;object-fit:cover;object-position:center 25%}
+.seat b{display:block}.seat small{display:block;font-size:11.5px;color:var(--dim)}.seat .who{color:var(--ink);margin-top:3px;font-weight:600}
+.seat.me .who{color:var(--gold)}
+.wait{color:var(--dim);font-style:italic}
+
+@media (min-width:1100px) and (min-height:600px){
+.coopbtn b{font-size:40px!important}.coopbtn small{font-size:30px!important}
+.tmb{grid-template-columns:76px minmax(0,1fr) auto auto}.tmb img{width:76px;height:76px}
+.tmb b{font-size:32px!important}.tmb small{font-size:27.5px!important}.tmb i{font-size:30px!important}.tmb em{font-size:36px!important}
+.fld span{font-size:30px!important}.cbox>b{font-size:35px!important}.fld input,.fld select,.cbox input{font-size:30px}
+.seat{grid-template-columns:96px minmax(0,1fr) auto}.seat img{width:96px;height:96px}.seat small{font-size:28px!important}.seat b{font-size:34px}
+}
+
+.teams{display:grid;gap:6px}
+.tpick{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:start;padding:8px;border-radius:12px;border:1px solid var(--rule);cursor:pointer}
+.tpick:has(input:checked){border-color:var(--gold);background:linear-gradient(90deg,#e8c27a1a,transparent)}
+.tpick input{margin-top:4px;accent-color:#e8c27a}
+.tpi{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:4px;font-size:12px;color:var(--dim)}
+.tpi span{display:inline-flex;align-items:center;gap:5px}.tpi img{width:24px;height:24px;border-radius:6px;object-fit:cover;object-position:center 25%}
+@media (min-width:1100px) and (min-height:600px){.tpi{font-size:28px!important}.tpi img{width:52px;height:52px}.tpick b{font-size:34px}}
 /* ===== desktop: small text ×2.5 (generated) ===== */
 @media (min-width:1100px) and (min-height:600px){
 body{font-size:35px}
@@ -548,6 +588,7 @@ body{font-size:35px!important}
       <figcaption>«Страх — плата за развитие. А я — баланс» <small>Куратор</small></figcaption>
     </figure>
     <div class="row"><button class="btn gold" id="btnStart">Начать</button><button class="btn" id="btnCodex1">Вселенная романа</button><button class="btn" id="btnHelp">Как играть</button><button class="btn" id="btnFull1">⛶ Во весь экран</button></div>
+    <button class="coopbtn" id="btnCoop"><b>Командная игра · 3 игрока</b><small>По сети: Круглов, Северова, Воронов — или Малышев, Суханова, Светлов</small></button>
     <button class="mansionbtn" id="btnMansion"><span><small>3D · вид от первого лица</small><b>Особняк под Сосновкой</b><i>Осмотрите дом, где умер Алексей. Находки усилят 17-й цикл</i></span></button>
   </section>
   <div class="quote">«Цивилизации приходят и уходят. Куратор остаётся.»<small>Хронология предыдущих цивилизаций</small></div>
@@ -569,6 +610,7 @@ body{font-size:35px!important}
     <button class="icon" id="btnFull" aria-label="Во весь экран" title="Во весь экран (F)">⛶</button>
   </header>
   <button class="herochip" id="gHero"></button>
+  <div id="gTeam"></div>
   <button class="flaw" id="gFlaw"><b>Изъян</b><span id="gFlawT"></span></button>
   <div class="res">
     <div class="l"><small>Свет</small><b id="rLight">0</b></div>
@@ -674,6 +716,20 @@ const HEROES=[
   act:{t:'Искупление',per:'cycle',ap:0,d:'Раз за цикл: голод Тьмы −35, но страх там, где стоит Вера, +15',run(s,r){s.hunger=clamp(s.hunger-35,0,100);r.fear=clamp(r.fear+15,0,100);}}}
 ];
 const heroOf=s=>HEROES.find(h=>h.id===s.hero)||HEROES[0];
+const hasH=(s,id)=>s.team?!!s.team[id]:s.hero===id;
+const atH=(s,i)=>s.team?Object.values(s.team).some(t=>t.at===i):i===s.heroAt;
+/* ---------- co-op: several heroes, one shared world ---------- */
+const TEAM_IDS=['kruglov','severova','voronov'];
+const TEAMS={a:{name:'Первая команда',ids:['kruglov','severova','voronov']},b:{name:'Вторая команда',ids:['malyshev','vera','svetlov']}};
+function teamIn(s,id){const t=s.team[id];s.hero=id;s.heroAt=t.at;s.heroEpoch=t.epoch;s.heroUsed=t.used;s.freeMove=t.free;s.ap=t.ap;s.apMax=t.apMax;}
+function teamOut(s,id){const t=s.team[id];t.at=s.heroAt;t.epoch=s.heroEpoch;t.used=s.heroUsed;t.free=s.freeMove;t.ap=s.ap;}
+function newTeamGame(lvl,legacy,seed,ids){ids=ids||TEAM_IDS;const s=newGame(lvl,legacy,seed,ids[0]);const apM=s.civ.k==='tyrant'?1:2;
+  const byFear=[...s.regions].sort((a,b)=>b.fear-a.fear).map(r=>r.id);s.team={};
+  ids.forEach((id,i)=>{const at=s.civ.k==='human'?(HERO_START17[id]||0):byFear[i%byFear.length];s.team[id]={at,epoch:0,used:0,free:1,ap:apM,apMax:apM,ready:0,pid:null,name:''};});
+  if(ids[0]==='vera'){s.light-=8;s.know-=4;}
+  if(ids.includes('vera')){s.light+=4;s.know+=2;}
+  s.goal=Math.round(s.goal*(ids.includes('malyshev')?1.35:1.2));s.coop=1;teamIn(s,ids[0]);return s;}
+
 const HERO_START17={kruglov:0,severova:0,gromov:0,voronov:2,astra:4,svetlov:1,malyshev:1,vera:2};
 function moveCost(s,to){const at=s.regions[s.heroAt];if(to===s.heroAt)return {why:'Герой уже здесь'};if(!at.nb.includes(to))return {why:'Только на соседний материк'};
   if(s.freeMove>0)return {free:true};if(s.ap<1)return {why:'Нет действий'};return {ap:1};}
@@ -1071,9 +1127,9 @@ function endEpoch(s){
     fearAdd[i]+=d+(rng()-.5)*3;
     if(r.fear>spreadAt)for(const j of r.nb)fearAdd[j]+=4;
   });
-  R.forEach((r,i)=>{r.fear+=fearAdd[i]-relief[i]-(i===s.heroAt?2:0);});
+  R.forEach((r,i)=>{r.fear+=fearAdd[i]-relief[i]-(atH(s,i)?2:0);});
   // nightmares
-  for(const r of R){if(r.fear>=90){const d=kill(s,r,s.hero==='astra'?6:12);if(d)notes.push(`Кошмар в «${r.name}»: погибло ${d}`);}else if(r.fear<40&&k!=='ice')r.pop+=2;}
+  for(const r of R){if(r.fear>=90){const d=kill(s,r,hasH(s,'astra')?6:12);if(d)notes.push(`Кошмар в «${r.name}»: погибло ${d}`);}else if(r.fear<40&&k!=='ice')r.pop+=2;}
   // AI emergence
   const cores=R.filter(r=>r.b.core).length;
   if(!s.ai&&(cores>=2||(k==='machine'&&s.epoch>=3))&&has(s,3)){
@@ -1084,13 +1140,13 @@ function endEpoch(s){
   // income
   const tyr=k==='tyrant'?1.5:1;
   const lightIn=Math.max(0,Math.round((3+R.reduce((a,r)=>a+r.love,0)/40)*tyr));
-  const knowIn=1+R.filter(r=>r.b.lab).length*(k==='tech'||k==='self'?5:3)+cores+(s.hero==='severova'?2:s.hero==='astra'?1:0)+(s.hero==='voronov'?R.filter(r=>r.b.lab).length:0);
+  const knowIn=1+R.filter(r=>r.b.lab).length*(k==='tech'||k==='self'?5:3)+cores+(hasH(s,'severova')?2:0)+(hasH(s,'astra')?1:0)+(hasH(s,'voronov')?R.filter(r=>r.b.lab).length:0);
   let memIn=R.reduce((a,r)=>a+r.love,0)/75+R.filter(r=>r.b.temple).length*.8;
   s.light+=lightIn;s.know+=knowIn;s.memory+=memIn;
   if(k==='forget'){const temples=R.filter(r=>r.b.temple).length;const loss=Math.max(0,Math.round(s.memory*(.12-temples*.02)-s.souls/40));s.memory-=loss;if(loss)notes.push(`Забвение: Память −${loss}`);}
   // hunger
   let hRate=C.hunger*(s.ai==='hostile'?1.5:1)*(k==='human'?oneMult:1)+(k==='mirrors'?R.filter(r=>r.b.mirror).length*.15:0);
-  s.hunger+=avgFear(s)/9*hRate*(s.hero==='gromov'?.75:1);
+  s.hunger+=avgFear(s)/9*hRate*(hasH(s,'gromov')?.75:1);
   norm(s);
   if(s.hunger>=100){
     const t=[...R].sort((a,b)=>b.fear-a.fear)[0];t.fear+=28;const d=kill(s,t,15);for(const j of t.nb)R[j].fear+=8;
@@ -1099,7 +1155,7 @@ function endEpoch(s){
   for(const t of notes)log(s,t,'bad');
   s.lastIncome={light:lightIn,know:knowIn,memory:Math.round(memIn)};
   checkEnd(s,true);
-  if(!s.over){s.epoch++;s.ap=s.apMax;s.freeMove=1;drawEvent(s);}
+  if(!s.over){s.epoch++;s.ap=s.apMax;s.freeMove=1;if(s.team)for(const id in s.team){const t=s.team[id];t.ap=t.apMax;t.free=1;t.ready=0;}drawEvent(s);}
 }
 function checkEnd(s,epochEnd){
   if(s.over)return;const C=s.civ;
@@ -1117,7 +1173,7 @@ function checkEnd(s,epochEnd){
   if(epochEnd&&s.epoch>=s.maxEpoch)s.over={win:false,why:'Время цикла вышло. Куратор начинает Очищение.'};
 }
 function stars(s){if(!s.over||!s.over.win)return 0;let st=1;if(avgFear(s)<40)st++;if(s.lost<=s.initPop*.15)st++;return st;}
-return {RITE_TIME,jobsOf,BUILD_TIME,BUILD_STAGES,fmtDur,siteInfo,tickBuilds,rushCost,rush,serialize,deserialize,moveCost,moveHero,contOf,HEROES,heroOf,DAYS,CIVS,LAWS,ACTIONS,EVENTS,ONEIROS_STAGES,newGame,actionsFor,act,endEpoch,choose,avgFear,avgLove,totalPop,stars,lawsOpen};
+return {TEAMS,TEAM_IDS,teamIn,teamOut,newTeamGame,RITE_TIME,jobsOf,BUILD_TIME,BUILD_STAGES,fmtDur,siteInfo,tickBuilds,rushCost,rush,serialize,deserialize,moveCost,moveHero,contOf,HEROES,heroOf,DAYS,CIVS,LAWS,ACTIONS,EVENTS,ONEIROS_STAGES,newGame,actionsFor,act,endEpoch,choose,avgFear,avgLove,totalPop,stars,lawsOpen};
 })();
 if(typeof module!=='undefined')module.exports=ENGINE;
 
@@ -1187,7 +1243,7 @@ $('#btnReset').onclick=()=>modal(`<div class="bd"><h3>Начать заново?
 function show(id){$('#scrTitle').hidden=id!=='title';$('#scrGame').hidden=id!=='game';window.scrollTo(0,0);try{if(TGW)id==='game'?TGW.BackButton.show():TGW.BackButton.hide();}catch(e){}}
 
 /* ---------- modal ---------- */
-function modal(html,bind){$('#card').innerHTML=html;$('#ov').hidden=false;$('#ov').scrollTop=0;bind&&bind();}
+function modal(html,bind,tag){$('#card').innerHTML=html;$('#card').dataset.tag=tag||'';$('#ov').hidden=false;$('#ov').scrollTop=0;bind&&bind();}
 function closeModal(){$('#ov').hidden=true;}
 function toast(t,ms){ms=ms||(t.length>70?4200:2300);const d=document.createElement('div');d.className='toast';d.textContent=t;d.style.animationDuration=(ms-100)+'ms';document.querySelectorAll('.toast').forEach(x=>x.remove());document.body.appendChild(d);setTimeout(()=>d.remove(),ms);}
 function lawCard(n,withUnlock){const L=E.LAWS[n-1];
@@ -1365,7 +1421,7 @@ function beginLevel(n,hero){
   const saga=n===1?'prologue':n===17?'epilogue':null;
   if(saga&&!prog.seen[saga])showSaga(saga,()=>{prog.seen[saga]=1;save();law();});else law();
 }
-$('#btnBack').onclick=()=>modal(`<div class="bd"><h3>Покинуть цикл?</h3><p>Прогресс этого цикла пропадёт. Открытые циклы и звёзды сохранятся.</p><div class="row"><button class="btn" id="mStay">Остаться</button><button class="btn gold" id="mLeave">К хронологии</button></div></div>`,()=>{$('#mStay').onclick=closeModal;$('#mLeave').onclick=()=>{closeModal();S=null;clearGame();renderTimeline();show('title');};});
+$('#btnBack').onclick=()=>S&&S.coop?modal(`<div class="bd"><h3>Выйти из комнаты ${S.room}?</h3><p>Ваш герой останется в игре. Вернуться можно по коду комнаты или кнопкой «Командная игра» на главном экране.</p><div class="row"><button class="btn" id="mStay">Остаться</button><button class="btn gold" id="mLeave">Выйти</button></div></div>`,()=>{$('#mStay').onclick=closeModal;$('#mLeave').onclick=()=>{closeModal();S=null;NET.on=false;renderTimeline();show('title');};}):modal(`<div class="bd"><h3>Покинуть цикл?</h3><p>Прогресс этого цикла пропадёт. Открытые циклы и звёзды сохранятся.</p><div class="row"><button class="btn" id="mStay">Остаться</button><button class="btn gold" id="mLeave">К хронологии</button></div></div>`,()=>{$('#mStay').onclick=closeModal;$('#mLeave').onclick=()=>{closeModal();S=null;clearGame();renderTimeline();show('title');};});
 $('#gHero').onclick=()=>S&&modal(`<img class="art" alt="" src="${ART[E.heroOf(S).art]}" style="aspect-ratio:16/9;object-position:center 25%"><div class="bd">${heroDetail(E.heroOf(S),S.civ.n)}<p style="font-size:12px">Сейчас герой в регионе «${S.regions[S.heroAt].name}». Умение работает только там. Чтобы перейти, перетащите фигурку на соседний материк или нажмите «Перейти сюда».</p><button class="btn gold" id="mOk">Понятно</button></div>`,()=>{$('#mOk').onclick=closeModal;});
 $('#gFlaw').onclick=()=>S&&modal(`<div class="bd"><div class="eyebrow">Изъян цивилизации</div><h3>${S.civ.flaw}</h3><p>${S.civ.fd}</p><button class="btn gold" id="mOk">Понятно</button></div>`,()=>{$('#mOk').onclick=closeModal;});
 
@@ -1381,6 +1437,7 @@ const GLOBE=(()=>{
   let cv,ctx,off,octx,img,D=0,size=0,dpr=1,R=0,cx=0,cy=0,geo=null,rowA=null,ubA=null,litA=null,rimA=null,pixA=null;
   let yaw=0.6,pitch=0.35,tYaw=null,tPitch=null,auto=true,dirty=true,lastPitch=null,raf=0,last=0,marks=[],drag=null;
   let heroImg=null,heroAnim=null,heroDrag=null,heroHit=null,onHeroDrop=null;
+  const mates={};const mateImg=k=>{if(!mates[k]){const i=new Image();i.onload=()=>{dirty=true;kick();};i.src=ART[k];mates[k]=i;}return mates[k];};
   const d2r=Math.PI/180,clampP=p=>Math.max(-1.2,Math.min(1.2,p));
   function setup(){
     if(!cv||cv.clientWidth<10){geo=null;size=0;return;}
@@ -1462,6 +1519,12 @@ const GLOBE=(()=>{
       ctx.font=`${11*GK}px system-ui,sans-serif`;for(const b in r.b){ctx.fillStyle=ic[b][1];ctx.strokeStyle='#060914';ctx.lineWidth=3;ctx.strokeText(ic[b][0],bx,p.y-m-9);ctx.fillText(ic[b][0],bx,p.y-m-9);bx+=14;}
       const L=lab[r.id];if(L){ctx.font=`${isSel?'700':'600'} ${11*GK}px Onest,system-ui,sans-serif`;ctx.lineWidth=3.5;ctx.strokeStyle='rgba(6,9,20,.92)';ctx.strokeText(L.name,p.x,L.y);ctx.fillStyle=isSel?'#fff':'#ece6d8';ctx.fillText(L.name,p.x,L.y);}
       ctx.globalAlpha=1;marks.push({id:r.id,x:p.x,y:p.y,m:m+6});}
+    // teammates (co-op)
+    if(S.team){let k=0;for(const id in S.team){if(id===S.hero)continue;const t=S.team[id];k++;const q=project(...at(S.regions[t.at]));if(q.z<.08)continue;
+      const H=E.HEROES.find(h=>h.id===id);const im=mateImg(H.art);const rr=11*(GK>1?1.6:1),fx=q.x-(rr*2.2)*k-6,fy=q.y-rr-10;
+      ctx.save();ctx.globalAlpha=Math.min(1,(q.z-.08)/.25);ctx.fillStyle=t.pid?'#cfe8ff':'#55607a';ctx.beginPath();ctx.arc(fx,fy,rr+2,0,Math.PI*2);ctx.fill();
+      ctx.save();ctx.beginPath();ctx.arc(fx,fy,rr,0,Math.PI*2);ctx.clip();if(im.complete&&im.naturalWidth){const s2=Math.min(im.naturalWidth,im.naturalHeight);ctx.drawImage(im,(im.naturalWidth-s2)/2,0,s2,s2,fx-rr,fy-rr,rr*2,rr*2);}else{ctx.fillStyle='#17213e';ctx.fill();}
+      ctx.restore();ctx.restore();}}
     // hero figure
     heroHit=null;
     const fig=(x,y,a)=>{ctx.save();ctx.globalAlpha=a;const rr=15;
@@ -1616,11 +1679,12 @@ function render(){
   $('#log').innerHTML=S.log.slice(0,6).map(l=>`<div class="${l.kind}">${C.days?'День':'Эпоха'} ${l.e}: ${l.t}</div>`).join('');
   $('#btnEnd').textContent=C.days?(S.epoch>=7?'Завершить седьмой день':'Завершить день'):(S.epoch>=S.maxEpoch?'Завершить последнюю эпоху':'Завершить эпоху');
   $('#btnEnd').disabled=!!S.over;
+  $('#gTeam').innerHTML=teamBar();if(S.coop&&NET.on)coopEndBtn();
   bindSites();saveGame();
 }
 let globeOn=false;
 function tryMove(id){
-  if(!S||S.over)return;const res=E.moveHero(S,id);
+  if(!S||S.over)return;const res=ND(st=>E.moveHero(st,id));
   if(!res.ok){toast(res.msg||'Нельзя перейти');return;}
   GLOBE.heroMove(res.from);sel=id;render();GLOBE.focus(id);toast(`${E.heroOf(S).name} теперь в регионе «${S.regions[id].name}»`);after();
 }
@@ -1664,7 +1728,7 @@ function renderPanel(){
       if(a==='amulet'&&w==='Не работает у зеркал'){modal(`<img class="art" alt="" src="${ART.amuletfail}" style="aspect-ratio:16/10;object-position:center 30%"><div class="bd"><div class="eyebrow">Очки «Амулет» · сбой</div><h3>Объект не идентифицирован</h3><p>Нейросеть очков ищет знакомые страшные образы, но сущности из зеркал Козырева не похожи ни на что из её обучения. Здесь «Амулет» бессилен.</p><div class="q">«То, что не поддаётся объяснению, остаётся за пределами алгоритмов.»</div><button class="btn gold" id="mOk">Понятно</button></div>`,()=>{$('#mOk').onclick=closeModal;});return;}
       toast(w);return;}
     const b0=snapS(),nm=b.querySelector('b').textContent;
-    const res=E.act(S,a,g?null:sel);if(!res.ok){toast(res.msg||'Недоступно');return;}
+    const sl=sel;const res=ND(st=>E.act(st,a,g?null:sl));if(!res.ok){toast(res.msg||'Недоступно');return;}
     render();
     if(res.res==='site'||res.res==='rite'){hap('medium');const j=res.res==='site'?S.regions[sel].site:S.regions[sel].rite;toast(`${res.res==='site'?'Стройка началась':'Началось'}: ${nm} — ${E.fmtDur(j.dur)}. Пока идёт время, можно делать другие ходы.`,3600);const c=document.querySelector('[data-site]');if(c)c.scrollIntoView({block:'nearest',behavior:'smooth'});}
     else toast(effectText(nm,b0,snapS(),a));
@@ -1675,6 +1739,7 @@ function renderPanel(){
 }
 $('#btnEnd').onclick=()=>{
   if(!S||S.over)return;if(S.event){showEvent();return;}
+  if(S.coop&&NET.on){coopReady();return;}
   const ep=S.epoch,memBefore=S.memory;E.endEpoch(S);
   const notes=S.log.filter(l=>l.e===ep&&l.kind==='bad').map(l=>l.t);
   render();
@@ -1700,8 +1765,8 @@ function showEvent(){
   modal(`${PORTRAIT[e.id]?`<img class="art" alt="" src="${ART[PORTRAIT[e.id]]}" style="aspect-ratio:16/9;object-position:center 30%">`:e.only?`<img class="art" alt="" src="${ART[CIVART[e.only-1]]}" style="aspect-ratio:16/7;object-position:center 40%;filter:${CIVTINT[e.only-1]||'none'}">`:''}<div class="bd"><div class="eyebrow">Событие · ${S.civ.days?'день':'эпоха'} ${S.epoch}</div><h3>${e.t}</h3><p>${e.d(R,R2)}</p>
     <div class="opts">${e.o.map((o,i)=>`<button class="opt" data-i="${i}" ${can(o)?'':'disabled'}><b>${o.t}</b><small>${optD(o.d)}${can(o)?'':' · не хватает ресурсов'}</small></button>`).join('')}</div></div>`,()=>{
     document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>startChoice(+b.dataset.i));
-    if(!e.o.some(can)){E.choose(S,e.o.length-1);}
-  });
+    if(!e.o.some(can)){ND(st=>{if(st.event&&!st.pendingChoice)E.choose(st,st.event.e.o.length-1);});}
+  },'ev:'+e.id+':o');
 }
 function showResult(){
   const C=S.civ,n=C.n,win=S.over.win,st=E.stars(S);
@@ -1711,7 +1776,7 @@ function showResult(){
     modal(`<img class="art" alt="" src="${ART.win}" style="aspect-ratio:4/3;object-position:top"><div class="bd" style="padding-bottom:0"><div class="eyebrow">Хронология завершена</div><div class="chrono" id="finalMap"></div></div><div class="bd"><div class="eyebrow">Семнадцатый цикл · эпилог</div><h3>Цикл разорван</h3><p>${S.over.why}</p>${starRow}
       <p>Через десять лет мир поднимается из руин. Онейрос ${S.one>=3?'живёт в сознании Круглова и учится быть человеком':'затих, но не исчез'}. Шестнадцать прежних цивилизаций остались мифами, а их память дошла до нас.</p>
       <img alt="" src="${ART.iacai}" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;display:block"><p>После победы в Женеве создано Международное агентство по контролю за ИИ. Его задача — чтобы ИИ всегда оставался инструментом, а не хозяином.</p><div class="q">«Пока мы помним. Пока мы любим. Пока мы надеемся — мы не одни.»</div><p style="font-family:var(--display);font-size:17px;font-style:italic">Мир без страха можно построить.</p>
-      <button class="btn gold" id="mHome">К хронологии</button></div>`,()=>{chronoMap($('#finalMap'),true);$('#mHome').onclick=()=>{closeModal();S=null;renderTimeline();show('title');};});return;}
+      <button class="btn gold" id="mHome">К хронологии</button></div>`,()=>{chronoMap($('#finalMap'),true);$('#mHome').onclick=()=>{closeModal();S=null;netLeave();renderTimeline();show('title');};});return;}
   modal(`<img class="art" alt="" src="${win?ART[CIVART[n-1]]:n===17?ART.santiago:ART.purge}" style="filter:${win?CIVTINT[n-1]||'none':'none'}"><div class="bd"><div class="eyebrow">Цикл ${n} · ${win?'память сохранена':'уничтожение и очищение'}</div>
     <h3>${win?(n<16?`Миф о цивилизации «${C.name}»`:`Последний миф перед людьми`):'Куратор начинает заново'}</h3><p>${S.over.why}</p>${starRow}
     ${win?`<p>Память ${S.memory} · спасено душ ${S.souls+S.freed} · потеряно ${S.lost}</p>`:''}
@@ -1719,7 +1784,7 @@ function showResult(){
     ${win&&n<17?`<div class="unlock">Открыт цикл ${n+1}: ${E.CIVS[n].name}. Наследие пройденных циклов усилит его старт${n>=6?'':' после открытия седьмого закона'}.</div>`:''}
     <div class="row">${win&&n<17?`<button class="btn gold" id="mNext">Цикл ${n+1}</button>`:''}<button class="btn${win?'':' gold'}" id="mRetry">${win?'Переиграть':'Попробовать снова'}</button><button class="btn" id="mHome">К хронологии</button></div></div>`,()=>{
     $('#mRetry').onclick=()=>{closeModal();startLevel(n);};
-    $('#mHome').onclick=()=>{closeModal();S=null;renderTimeline();show('title');};
+    $('#mHome').onclick=()=>{closeModal();S=null;netLeave();renderTimeline();show('title');};
     if($('#mNext'))$('#mNext').onclick=()=>{closeModal();startLevel(n+1);};
   });
 }
@@ -1792,12 +1857,12 @@ function siteChips(){const o=[];for(const r of S.regions)for(const kind of ['bui
   o.push(`<span class="chip sitechip ${I.t==='lab'||I.t==='dream'?'lab':''}" data-sitechip="${r.id}">${JICON[I.t]} · ${r.name} · <b data-left="${r.id}:${kind}">${E.fmtDur(I.left)}</b></span>`);}return o.join('');}
 function bindSites(){
   document.querySelectorAll('[data-sitechip]').forEach(c=>c.onclick=()=>selectRegion(+c.dataset.sitechip));
-  document.querySelectorAll('[data-rush]').forEach(b=>b.onclick=e=>{e.stopPropagation();const [rid,kind]=b.dataset.rush.split(':');const res=E.rush(S,+rid,kind);
+  document.querySelectorAll('[data-rush]').forEach(b=>b.onclick=e=>{e.stopPropagation();const [rid,kind]=b.dataset.rush.split(':');const res=ND(st=>E.rush(st,+rid,kind));
     if(!res.ok){toast(res.msg||'Нельзя ускорить');return;}hap('medium');render();finishBuilds(res.done,`Ускорено за ${res.cost} Света.`);});
 }
 let lastSiteTick=0;
 function tickSites(){
-  if(!S||S.over)return;const done=E.tickBuilds(S);
+  if(!S||S.over||S.lobby)return;const nowT=Date.now();const due=S.regions.some(r=>(r.site&&nowT>=r.site.start+r.site.dur)||(r.rite&&nowT>=r.rite.start+r.rite.dur));const done=due?ND(st=>E.tickBuilds(st)):[];
   if(done.length){render();finishBuilds(done);return;}
   const now=Date.now();
   document.querySelectorAll('[data-site]').forEach(el=>{const [rid,kind]=el.dataset.site.split(':');const j=jobOf(S.regions[+rid],kind);const I=E.siteInfo(j,now);if(!I)return;
@@ -1827,7 +1892,7 @@ setInterval(tickSites,1000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)tickSites();else saveGame();});
 /* ===== save the running cycle (so construction keeps going while the app is closed) ===== */
 const GKEY='sny-17-game';
-function saveGame(){if(!S)return;try{if(S.over){localStorage.removeItem(GKEY);cloudPut('game','');return;}S.log=S.log.slice(0,30);const str=E.serialize(S);localStorage.setItem(GKEY,str);cloudPut('game',str);}catch(e){}}
+function saveGame(){if(!S||S.coop)return;try{if(S.over){localStorage.removeItem(GKEY);cloudPut('game','');return;}S.log=S.log.slice(0,30);const str=E.serialize(S);localStorage.setItem(GKEY,str);cloudPut('game',str);}catch(e){}}
 function clearGame(){try{localStorage.removeItem(GKEY);}catch(e){}cloudPut('game','');}
 function savedGame(){try{const s=localStorage.getItem(GKEY);if(!s)return null;const o=JSON.parse(s);return o&&!o.over?o:null;}catch(e){return null;}}
 function resumeGame(){const str=localStorage.getItem(GKEY);if(!str)return;S=E.deserialize(str);sel=null;
@@ -1860,9 +1925,10 @@ function rowsHTML(rows,t){return `<div class="drows">${rows.map(r=>{const v=r.a+
     <div class="dtrack"><i class="from" style="width:${Math.min(100,r.a/r.max*100).toFixed(1)}%"></i><i class="now" style="width:${Math.min(100,v/r.max*100).toFixed(1)}%"></i><i class="to" style="left:${Math.min(100,r.b/r.max*100).toFixed(1)}%"></i></div></div>`;}).join('')}</div>`;}
 let choiceRAF=0;
 function startChoice(i,resume){
-  if(!S||!S.event)return;const {e,r,r2}=S.event;const o=e.o[i];
-  const C2=E.deserialize(E.serialize(S));E.choose(C2,i);const rows=deltaRows(S,C2);
-  if(!resume||!S.pendingChoice||S.pendingChoice.i!==i)S.pendingChoice={i,start:Date.now(),dur:CHOICE_TIME};
+  if(!S||!S.event)return;
+  if(!resume||!S.pendingChoice||S.pendingChoice.i!==i){const st0=Date.now();ND(st=>{if(st.event&&!st.pendingChoice)st.pendingChoice={i,start:st0,dur:CHOICE_TIME};});if(!S.pendingChoice)return;i=S.pendingChoice.i;}
+  const {e,r,r2}=S.event;const o=e.o[i];
+  const C2=E.deserialize(E.serialize(S));delete C2.pendingChoice;E.choose(C2,i);const rows=deltaRows(S,C2);
   saveGame();hap('medium');
   const R=S.regions[r];
   modal(`<div class="bd choice"><div class="eyebrow">Решение исполняется · ${e.t}</div><h3>${o.t}</h3><p style="margin-top:-4px">${optD(o.d)}</p>
@@ -1870,15 +1936,15 @@ function startChoice(i,resume){
     <div id="chRows">${rowsHTML(rows,0)}</div>
     ${rows.length?'':'<p>Видимых изменений не будет.</p>'}
     <div class="row"><button class="btn" id="chRush">Ускорить · ✦ 1</button></div></div>`,()=>{
-    const fin=()=>{cancelAnimationFrame(choiceRAF);if(!S||!S.pendingChoice)return;delete S.pendingChoice;const b0=snapS();E.choose(S,i);closeModal();render();hap('success');if(!S.over)toast(effectText(o.t,b0,snapS()));after();};
-    const rb=$('#chRush');rb.disabled=S.light<1;rb.onclick=()=>{if(S.light<1){toast('Нужен 1 Свет');return;}S.light-=1;S.pendingChoice.dur=Date.now()-S.pendingChoice.start;};
+    const fin=()=>{cancelAnimationFrame(choiceRAF);if(!S||!S.pendingChoice)return;const b0=snapS();ND(st=>{if(st.pendingChoice){const j=st.pendingChoice.i;delete st.pendingChoice;E.choose(st,j);}});closeModal();render();hap('success');if(!S.over)toast(effectText(o.t,b0,snapS()));after();};
+    const rb=$('#chRush');rb.disabled=S.light<1;rb.onclick=()=>{if(S.light<1){toast('Нужен 1 Свет');return;}ND(st=>{if(st.pendingChoice&&st.light>=1){st.light-=1;st.pendingChoice.dur=Date.now()-st.pendingChoice.start;}});};
     const stages=['Решение принято…','Слухи расходятся по миру…','Люди меняются…','Последствия проявляются…'];
     const loop=()=>{const P=S&&S.pendingChoice;if(!P)return;if($('#ov').hidden){cancelAnimationFrame(choiceRAF);return;}
       const t=Math.max(0,Math.min(1,(Date.now()-P.start)/Math.max(1,P.dur)));const ease=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
       $('#chBar').style.width=(t*100).toFixed(1)+'%';$('#chLeft').textContent=E.fmtDur(P.dur-(Date.now()-P.start));$('#chStage').textContent=stages[Math.min(3,Math.floor(t*4))];
       $('#chRows').innerHTML=rowsHTML(rows,ease);
       if(t>=1){fin();return;}choiceRAF=requestAnimationFrame(loop);};
-    choiceRAF=requestAnimationFrame(loop);});
+    choiceRAF=requestAnimationFrame(loop);},'ev:'+e.id+':p');
 }
 /* rite preview: what will change when Утешение / Сон памяти completes */
 function ritePreview(r){if(!r.rite)return [];try{const C2=E.deserialize(E.serialize(S));const a=E.ACTIONS.find(x=>x.id===r.rite.t);const q=C2.regions[r.id];a.run(C2,q);
@@ -1890,6 +1956,116 @@ function toggleFull(){try{if(!document.fullscreenElement)document.documentElemen
 $('#btnFull').onclick=toggleFull;$('#btnFull1').onclick=toggleFull;
 document.addEventListener('keydown',e=>{if((e.key==='f'||e.key==='а')&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!/INPUT|TEXTAREA/.test(document.activeElement.tagName)&&!document.getElementById('m3d'))toggleFull();});
 document.addEventListener('fullscreenchange',()=>{const on=!!document.fullscreenElement;$('#btnFull').textContent=on?'🗗':'⛶';$('#btnFull1').textContent=on?'Выйти из полного экрана':'⛶ Во весь экран';});
+/* ===== Co-op network game: 3 players (Круглов, Северова, Воронов) on one shared world ===== */
+const SB_URL='https://wuvadreohiphwevprwmk.supabase.co/rest/v1/rpc/',SB_KEY='sb_publishable_QnCBQILrqr6PhrAE8521NA_edLJSMA-',SITE='https://human-dream.vercel.app/';
+const NET={on:false,code:null,ver:0,me:null,queue:[],busy:false,room:null,sumEpoch:0};
+const PID=(()=>{try{let p=localStorage.getItem('sny-pid');if(!p){p=Math.random().toString(36).slice(2,12);localStorage.setItem('sny-pid',p);}return p;}catch(e){return Math.random().toString(36).slice(2,12);}})();
+let MYNAME=(()=>{try{return localStorage.getItem('sny-name')||(TGW&&TGW.initDataUnsafe&&TGW.initDataUnsafe.user&&TGW.initDataUnsafe.user.first_name)||'';}catch(e){return '';}})();
+const esc=t=>String(t||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+async function rpc(fn,args){const r=await fetch(SB_URL+fn,{method:'POST',headers:{apikey:SB_KEY,'Content-Type':'application/json'},body:JSON.stringify(args)});if(!r.ok)throw new Error('net '+r.status);return r.json();}
+const sleepMs=ms=>new Promise(r=>setTimeout(r,ms));
+function stOf(row){const st=E.deserialize(JSON.stringify(row.state));if(NET.me&&st.team&&st.team[NET.me])E.teamIn(st,NET.me);return st;}
+function toWire(st){if(NET.me&&st.team&&st.team[NET.me])E.teamOut(st,NET.me);st.log=st.log.slice(0,30);return JSON.parse(E.serialize(st));}
+/* run a game mutation: locally right away, and (in co-op) on the server's latest state */
+function ND(fn){if(!S)return {ok:false};if(S.coop&&NET.on&&!NET.me){toast('Вы наблюдаете за игрой: все герои заняты');return {ok:false};}
+  const prev=meta(S);const r=fn(S);if(S.coop&&NET.on){NET.queue.push(fn);netFlush();coopAfter(prev,true);}return r;}
+function netCommit(fn){NET.queue.push(fn);netFlush();}
+async function netFlush(){if(NET.busy||!NET.on)return;NET.busy=true;
+  try{for(let tries=0;tries<6&&NET.queue.length;tries++){
+      const row=(await rpc('sny_get_room',{p_code:NET.code}))[0];if(!row){toast('Комната не найдена');NET.queue=[];break;}
+      const st=stOf(row);const q=NET.queue.slice();for(const f of q){try{f(st);}catch(e){console.warn(e);}}
+      const v=await rpc('sny_put_room',{p_code:NET.code,p_version:row.version,p_state:toWire(st)});
+      if(v>0){NET.queue.splice(0,q.length);NET.ver=v;if(NET.me&&st.team[NET.me])E.teamIn(st,NET.me);onRoom(st,true);}
+      else await sleepMs(120+Math.random()*350);}
+  }catch(e){toast('Нет связи с сервером, повторяю…');await sleepMs(1500);}
+  NET.busy=false;if(NET.queue.length&&NET.on)setTimeout(netFlush,300);}
+async function netPoll(){if(!NET.on||NET.busy||document.hidden)return;
+  try{const v=await rpc('sny_room_version',{p_code:NET.code});if(v&&v!==NET.ver&&!NET.busy){const row=(await rpc('sny_get_room',{p_code:NET.code}))[0];if(!row||NET.busy)return;NET.ver=row.version;
+    const o=row.state;NET.me=Object.keys(o.team).find(k=>o.team[k].pid===PID)||null;onRoom(stOf(row),true);}}catch(e){}}
+setInterval(netPoll,1500);
+function meta(s){return s?{epoch:s.epoch,memory:s.memory,over:!!s.over,ev:s.event?s.event.e.id:null,pc:!!s.pendingChoice,log0:s.log[0]?s.log[0].t+'|'+s.log[0].e:'',lvl:s.lvl}:null;}
+/* a fresh room state arrived (lobby or game) */
+function onRoom(st,remote){NET.room=st;NET.me=Object.keys(st.team).find(k=>st.team[k].pid===PID)||null;
+  if(NET.me)E.teamIn(st,NET.me);
+  if(st.lobby){if(!$('#ov').hidden&&($('#card').dataset.tag||'')!=='lobby'&&!remote)return;showLobby(st);return;}
+  const entering=!S||!S.coop||S.room!==st.room;const prev=entering?null:meta(S);
+  S=st;if(entering){enterCoop();return;}
+  render();if(remote)coopAfter(prev,false);}
+function coopAfter(prev,local){if(!S||!prev)return;
+  if(!local&&prev.log0&&S.log[0]&&S.log[0].t+'|'+S.log[0].e!==prev.log0){const i=S.log.findIndex(l=>l.t+'|'+l.e===prev.log0);const fresh=(i<0?S.log.slice(0,1):S.log.slice(0,i)).filter(l=>l.kind!=='event');if(fresh.length&&S.epoch===prev.epoch)toast(fresh[0].t,2600);}
+  const tag=$('#ov').hidden?'':($('#card').dataset.tag||'');
+  if(S.over&&!prev.over){showResult();return;}
+  if(S.epoch>prev.epoch&&NET.sumEpoch<S.epoch){NET.sumEpoch=S.epoch;coopSummary(prev);return;}
+  if(prev.ev&&!S.event&&tag.startsWith('ev:')){closeModal();toast('Решение принято: '+(S.log.find(l=>l.kind==='event')||{t:''}).t,3000);}
+  if(S.event&&(tag===''||(tag.startsWith('ev:')&&S.pendingChoice&&!tag.endsWith(':p'))))showEvent();
+}
+function coopSummary(prev){const ep=prev.epoch;const notes=S.log.filter(l=>l.e===ep&&l.kind==='bad').map(l=>l.t);const inc=S.lastIncome||{light:0,know:0,memory:0};
+  modal(`<div class="bd"><div class="eyebrow">${S.civ.name} · командная игра</div><h3>${S.civ.days?`Итоги дня ${ep}`:`Итоги эпохи ${ep}`}</h3>
+    <div class="sum"><div><b style="color:var(--gold)">+${inc.light}</b><small>Свет</small></div><div><b style="color:var(--cyan)">+${inc.know}</b><small>Знание</small></div><div><b style="color:var(--gold)">${S.memory-prev.memory>=0?'+':''}${S.memory-prev.memory}</b><small>Память</small></div></div>
+    ${notes.length?`<div class="notes">${notes.map(n=>`<div>${n}</div>`).join('')}</div>`:'<p>Эпоха прошла спокойно.</p>'}<p>У каждого героя снова ${S.team[Object.keys(S.team)[0]].apMax} действия.</p>
+    <button class="btn gold" id="mNext">Дальше</button></div>`,()=>{$('#mNext').onclick=()=>{closeModal();after();};},'sum');}
+function teamBar(){if(!S||!S.coop)return '';return `<div class="team">${Object.keys(S.team).map(id=>{const t=S.team[id],H=E.HEROES.find(h=>h.id===id),mine=id===NET.me,ap=mine?S.ap:t.ap;
+  return `<div class="tmb${mine?' me':''}${t.pid?'':' empty'}"><img alt="" src="${ART[H.art]}"><span><b>${H.name.split(' ').slice(-1)[0]}${mine?' · вы':''}</b><small>${t.pid?esc(t.name)||'игрок':'свободно'} · «${S.regions[mine?S.heroAt:t.at].name}»</small></span><i>${'●'.repeat(Math.max(0,ap))}${'○'.repeat(Math.max(0,t.apMax-ap))}</i>${t.ready?'<em title="Готов завершить эпоху">✓</em>':''}</div>`;}).join('')}</div>`;}
+function coopEndBtn(){const seated=Object.keys(S.team).filter(id=>S.team[id].pid),ready=seated.filter(id=>S.team[id].ready).length,mine=NET.me&&S.team[NET.me].ready;
+  $('#btnEnd').textContent=mine?`Ждём команду · готовы ${ready} из ${seated.length} (отменить)`:`Готов завершить ${S.civ.days?'день':'эпоху'} · ${ready} из ${seated.length}`;}
+function coopReady(){ND(st=>{const t=st.team[NET.me];if(!t||st.event||st.over)return;t.ready=t.ready?0:1;
+  const seated=Object.values(st.team).filter(x=>x.pid);if(seated.length&&seated.every(x=>x.ready)){E.teamOut(st,NET.me);E.tickBuilds(st);E.endEpoch(st);E.teamIn(st,NET.me);}});render();}
+/* lobby */
+function openCoop(){const max=Math.min(17,prog.open);
+  modal(`<div class="bd"><div class="eyebrow">Сеть · до трёх игроков</div><h3>Командная игра</h3>
+    <p>Три героя спасают один мир. Свет, Знание и Память общие, у каждого свои 2 действия за эпоху и своё умение. Эпоха заканчивается, когда все нажмут «Готов».</p>
+    <label class="fld"><span>Ваше имя</span><input id="cName" maxlength="20" value="${esc(MYNAME)}" placeholder="Например, Андрей"></label>
+    <div class="cbox"><b>Создать комнату</b>
+      <div class="teams">${Object.entries(E.TEAMS).map(([k,T],i)=>`<label class="tpick"><input type="radio" name="cTeam" value="${k}"${i?'':' checked'}><span><b>${T.name}</b><span class="tpi">${T.ids.map(id=>{const H=E.HEROES.find(h=>h.id===id);return `<span><img alt="" src="${ART[H.art]}">${H.name}</span>`;}).join('')}</span></span></label>`).join('')}</div>
+      <label class="fld"><span>Цикл</span><select id="cLvl">${E.CIVS.slice(0,max).map((c,i)=>`<option value="${i+1}"${i+1===max?' selected':''}>${i+1}. ${c.name}</option>`).join('')}</select></label><button class="btn gold" id="cNew">Создать и позвать друзей</button></div>
+    <div class="cbox"><b>Войти по коду</b><div class="row"><input id="cCode" maxlength="8" placeholder="Код комнаты" style="text-transform:uppercase;flex:1"><button class="btn" id="cJoin">Войти</button></div></div>
+    <button class="btn" id="cClose">Закрыть</button></div>`,()=>{
+    const nm=()=>{MYNAME=($('#cName').value||'').trim().slice(0,20);try{localStorage.setItem('sny-name',MYNAME);}catch(e){}if(!MYNAME){toast('Напишите имя');$('#cName').focus();return false;}return true;};
+    $('#cNew').onclick=()=>{if(nm())createRoom(+$('#cLvl').value,(document.querySelector('input[name=cTeam]:checked')||{}).value||'a');};
+    $('#cJoin').onclick=()=>{if(nm())joinRoom(($('#cCode').value||'').trim().toUpperCase());};
+    $('#cClose').onclick=closeModal;},'coop');}
+async function createRoom(lvl,teamKey){const ids=(E.TEAMS[teamKey]||E.TEAMS.a).ids;const legacy=Object.keys(prog.stars).filter(k=>prog.stars[k]>0&&+k<lvl).length;
+  for(let i=0;i<5;i++){const code=Array.from({length:5},()=>'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random()*32)]).join('');
+    const st=E.newTeamGame(lvl,legacy,(Date.now()^(lvl*2654435761))>>>0,ids);st.teamKey=teamKey;st.lobby=1;st.host=PID;st.room=code;
+    const first=ids[0];st.team[first].pid=PID;st.team[first].name=MYNAME;
+    try{const ok=await rpc('sny_create_room',{p_code:code,p_state:JSON.parse(E.serialize(st))});if(ok){NET.on=true;NET.code=code;NET.ver=1;NET.me=first;rememberRoom(code);showLobby(st);return;}}catch(e){toast('Нет связи с сервером');return;}}
+  toast('Не удалось создать комнату');}
+async function joinRoom(code){if(!/^[A-Z0-9]{4,8}$/.test(code)){toast('Неверный код');return;}
+  try{const row=(await rpc('sny_get_room',{p_code:code}))[0];if(!row){toast('Комната не найдена');return;}
+    NET.on=true;NET.code=code;NET.ver=row.version;rememberRoom(code);const o=row.state;NET.me=Object.keys(o.team).find(k=>o.team[k].pid===PID)||null;
+    if(!NET.me){const free=Object.keys(o.team).find(k=>!o.team[k].pid);if(free){netCommit(st=>{const t=st.team[free];if(!t.pid&&!Object.values(st.team).some(x=>x.pid===PID)){t.pid=PID;t.name=MYNAME;}});}}
+    onRoom(stOf(row),true);}catch(e){toast('Нет связи с сервером');}}
+function rememberRoom(code){try{localStorage.setItem('sny-coop',code);}catch(e){}}
+function showLobby(st){const host=st.host===PID,link=SITE+'?room='+st.room;
+  modal(`<div class="bd"><div class="eyebrow">${(E.TEAMS[st.teamKey]||E.TEAMS.a).name} · цикл ${st.lvl} · ${st.civ.name}</div><h3>Комната <span class="rcode">${st.room}</span></h3>
+    <p>Отправьте друзьям код или ссылку. Каждый выбирает своего героя.</p>
+    <div class="row"><button class="btn" id="lCopy">Скопировать ссылку</button><button class="btn" id="lShare">Поделиться</button></div>
+    <div class="seats">${Object.keys(st.team).map(id=>{const t=st.team[id],H=E.HEROES.find(h=>h.id===id),mine=t.pid===PID;
+      return `<div class="seat${mine?' me':''}${t.pid?' taken':''}"><img alt="" src="${ART[H.art]}"><div><b>${H.name}</b><small>${H.passive}: ${id==='vera'?'команда начинает со Светом +4 и Знанием +2.':H.pd}</small><small class="who">${t.pid?(mine?'Это вы':'Играет: '+esc(t.name||'игрок')):'Свободно'}</small></div>${t.pid?'':`<button class="btn gold" data-seat="${id}">Занять</button>`}</div>`;}).join('')}</div>
+    ${host?`<button class="btn gold" id="lGo" style="width:100%">Начать цикл · игроков ${Object.keys(st.team).filter(k=>st.team[k].pid).length} из 3</button><p style="font-size:12px">Можно начать и вдвоём: свободный герой будет стоять на месте.</p>`:'<p class="wait">Ждём, пока создатель комнаты начнёт цикл…</p>'}
+    <button class="btn" id="lLeave">Выйти</button></div>`,()=>{
+    $('#lCopy').onclick=()=>{try{navigator.clipboard.writeText(link).then(()=>toast('Ссылка скопирована'),()=>toast(link,6000));}catch(e){toast(link,6000);}};
+    $('#lShare').onclick=()=>{const txt=`Сыграем в «Сны человеческие» вместе? Комната ${st.room}`;
+      if(TGW&&TGW.openTelegramLink)TGW.openTelegramLink('https://t.me/share/url?url='+encodeURIComponent(link)+'&text='+encodeURIComponent(txt));
+      else if(navigator.share)navigator.share({title:'Сны человеческие',text:txt,url:link}).catch(()=>{});else{try{navigator.clipboard.writeText(link);}catch(e){}toast('Ссылка скопирована');}};
+    document.querySelectorAll('[data-seat]').forEach(b=>b.onclick=()=>{const id=b.dataset.seat;netCommit(s2=>{const t=s2.team[id];if(t.pid&&t.pid!==PID)return;for(const k in s2.team)if(s2.team[k].pid===PID){s2.team[k].pid=null;s2.team[k].name='';}t.pid=PID;t.name=MYNAME;});hap('light');});
+    if($('#lGo'))$('#lGo').onclick=()=>netCommit(s2=>{s2.lobby=0;});
+    $('#lLeave').onclick=()=>{netCommit(s2=>{for(const k in s2.team)if(s2.team[k].pid===PID&&s2.lobby){s2.team[k].pid=null;s2.team[k].name='';}});setTimeout(()=>{netLeave();closeModal();},400);};},'lobby');}
+function enterCoop(){sel=null;closeModal();NET.sumEpoch=S.epoch;GLOBE.setHero(ART[E.heroOf(S).art]);GLOBE.reset(S.civ.k==='human'?[35,40]:[25,30]);show('game');render();
+  const H=E.heroOf(S),C=S.civ;
+  modal(`<img class="art" alt="" src="${ART[C.k==='human'?'oneiros':CIVART[C.n-1]]}" style="aspect-ratio:16/9;filter:${CIVTINT[C.n-1]||'none'}"><div class="bd"><div class="eyebrow">Командная игра · комната ${S.room} · цикл ${C.n}</div><h3>${C.name}</h3>
+    <p>${NET.me?`Вы играете за <b>${H.name}</b>. ${H.passive}: ${H.pd} Умение: «${H.act.t}» — ${H.act.d}`:'Все герои заняты — вы наблюдаете.'}</p>
+    <p><b style="color:var(--fear)">Изъян: ${C.flaw}.</b> ${C.fd}</p>
+    <p>Цель команды: Память ${S.goal}${C.k==='human'?', три спутника Куратора и средний страх ниже 50':` за ${S.maxEpoch} эпох`}. Свет и Знание общие — договаривайтесь, кто что строит. Эпоха кончается, когда все нажмут «Готов».</p>
+    <button class="btn gold" id="mGo" style="width:100%">Вперёд</button></div>`,()=>{$('#mGo').onclick=()=>{closeModal();after();};},'intro');}
+function netLeave(){NET.on=false;NET.code=null;NET.me=null;NET.queue=[];try{localStorage.removeItem('sny-coop');}catch(e){}}
+$('#btnCoop').onclick=openCoop;
+/* deep link: ?room=CODE or Telegram start_param room_CODE */
+(()=>{let c=null;try{c=new URLSearchParams(location.search).get('room');}catch(e){}
+  try{const sp=TGW&&TGW.initDataUnsafe&&TGW.initDataUnsafe.start_param;if(sp&&/^room_/i.test(sp))c=sp.slice(5);}catch(e){}
+  if(!c){try{c=localStorage.getItem('sny-coop');}catch(e){}if(c){setTimeout(()=>{const b=$('#btnCoop');if(b)b.textContent='Командная игра · вернуться в '+c;b.onclick=()=>{if(!MYNAME){openCoop();return;}joinRoom(c);};},50);}return;}
+  c=c.toUpperCase();setTimeout(()=>{const sp=$('#splash');if(sp)sp.hidden=true;if(!MYNAME){openCoop();setTimeout(()=>{const i=$('#cCode');if(i)i.value=c;},30);}else joinRoom(c);},300);})();
+
 /* ---------- 3D: особняк под Сосновкой (Three.js r128, загружается по требованию) ----------
    Один дом, три уровня в одной сцене: подвал (y = −H), первый этаж (0), второй этаж (H).
    Между ними — широкая дубовая лестница (прямой марш) и узкая винтовая лестница в подвал.

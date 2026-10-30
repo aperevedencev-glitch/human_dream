@@ -8,3 +8,8 @@
 В Telegram: @BotFather → `/newapp` (или Bot Settings → Menu Button) → ссылка на развёрнутый сайт Vercel.
 
 Сайт: https://human-dream.vercel.app
+
+## Командная игра
+До трёх игроков по сети (комнаты хранятся в Supabase: таблица `sny_rooms` и функции `sny_*`).
+Команды: Круглов, Северова, Воронов — или Малышев, Суханова, Светлов.
+Ссылка-приглашение: `https://human-dream.vercel.app/?room=КОД`.
