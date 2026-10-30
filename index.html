@@ -458,6 +458,37 @@ body.m3on{overflow:hidden}
 @media (max-width:520px){.diffs{grid-template-columns:1fr}.dbtn{grid-template-columns:auto 1fr;gap:8px;align-items:baseline}}
 @media (min-width:1100px) and (min-height:600px){.dbtn b{font-size:34px!important}.dbtn small{font-size:27px!important}.fcr{font-size:30px!important}.rc .pd{font-size:26px!important}.fx{font-size:34px}}
 @media (prefers-reduced-motion:reduce){.fx{animation:none;opacity:1}.chip.fc.bad{animation:none}}
+
+/* ===== design pass: imagery ===== */
+#gbg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;--dread:0}
+#gbg img{position:absolute;inset:-6%;width:112%;height:112%;object-fit:cover;animation:gbgDrift 60s ease-in-out infinite alternate}
+#gbg i{position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 40%,transparent 30%,#060914 85%),linear-gradient(180deg,rgba(6,9,20,.35),rgba(6,9,20,.75));}
+#gbg i::after{content:"";position:absolute;inset:0;background:radial-gradient(90% 70% at 50% 50%,rgba(229,67,90,.0),rgba(142,30,51,.55));opacity:var(--dread);transition:opacity 1.5s}
+@keyframes gbgDrift{to{transform:translate(-3%,-2%) scale(1.05)}}
+#scrGame .panel,#scrGame .res div,#scrGame .herochip,#scrGame .flaw,#scrGame .tmb{backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+#scrGame .panel{background:rgba(15,20,40,.82)}
+.act.hasimg{position:relative;padding-left:64px;min-height:64px}
+.act .ai{position:absolute;left:8px;top:10px;width:46px;height:46px;border-radius:10px;background-size:cover;border:1px solid rgba(232,194,122,.35);box-shadow:0 4px 12px #0008}
+.act.dis .ai{filter:grayscale(.85) brightness(.6)}
+.act.heroact .ai{border-color:var(--gold);box-shadow:0 0 0 2px #e8c27a55}
+.rban{position:relative;margin:0 0 10px;border-radius:12px;overflow:hidden;aspect-ratio:16/7;border:1px solid var(--rule)}
+.rban img{width:100%;height:100%;object-fit:cover;display:block}
+.rban figcaption{position:absolute;left:0;right:0;bottom:0;padding:22px 12px 9px;font-family:var(--display);font-style:italic;font-size:15px;color:#fff;background:linear-gradient(180deg,transparent,rgba(6,9,20,.92));z-index:2}
+.rban i{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(229,67,90,.45));opacity:calc(var(--t) * 1.2 - .45);mix-blend-mode:multiply}
+.rban:not(.anc){aspect-ratio:16/8}
+.sban{position:relative;min-height:150px;display:flex;align-items:flex-end;border-bottom:1px solid var(--rule)}
+.sban>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sban::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,9,20,.1),rgba(6,9,20,.92))}
+.sban.dark::after{background:linear-gradient(180deg,rgba(80,10,25,.25),rgba(6,9,20,.95))}
+.sban>div{position:relative;z-index:1;padding:14px 16px 12px}.sban h3{margin:2px 0 0}.sban p{margin:4px 0 0;font-family:var(--display);font-style:italic;color:var(--ink)}
+.stiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:4px 0 12px}
+.stile{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--rule);padding:44px 10px 8px;text-align:center;background:var(--panel)}
+.stile span{position:absolute;inset:0 0 auto 0;height:40px;background-size:cover;opacity:.75;-webkit-mask:linear-gradient(180deg,#000,transparent);mask:linear-gradient(180deg,#000,transparent)}
+.stile b{position:relative;display:block;font-family:var(--display);font-size:28px;line-height:1}.stile small{position:relative;color:var(--dim);font-size:12px}
+.evart{object-position:center 35%}
+@media (min-width:1100px) and (min-height:600px){.act.hasimg{padding-left:120px;min-height:120px}.act .ai{width:96px;height:96px;left:12px;top:12px;border-radius:14px}
+ .rban figcaption{font-size:34px!important}.stile b{font-size:60px}.stile small{font-size:30px!important}.stile{padding-top:80px}.stile span{height:76px}.sban{min-height:260px}}
+@media (prefers-reduced-motion:reduce){#gbg img{animation:none}}
 /* ===== desktop: small text ×2.5 (generated) ===== */
 @media (min-width:1100px) and (min-height:600px){
 body{font-size:35px}
@@ -620,6 +651,7 @@ body{font-size:35px!important}
 </main>
 
 <main class="wrap" id="scrGame" hidden>
+  <div id="gbg" aria-hidden="true"><img alt="" id="gbgImg"><i></i></div>
   <header class="gtop">
     <button class="icon" id="btnBack" aria-label="К хронологии">‹</button>
     <div class="gtitle"><div class="eyebrow" id="gCycle">Цикл 1 из 17</div><h2 id="gName">С’к’раа</h2></div>
@@ -1213,6 +1245,7 @@ const $=s=>document.querySelector(s);
 const CIVART=['p1','p2','p3','p4','p5','p6','p7','p8','p9','p10','p11','p12','p13','p14','p15','p16','c17'];
 const CIVTINT=[];
 const LAWART=['law1','law2','law3','law4','law5','law6','law7'];
+const EVIMG={prophet:'darkness',lovers:'law4',myths:'layers',famine:'purge',mirrorhouse:'law2',hypnos:'gipnos',shared:'bedroom',war:'purge',curator:'curator',choir:'law6',machine:'law3',dead:'law6',ark:'ark',malyshev:'malyshev',koval:'gipnos',litvinov:'law3'};
 const PORTRAIT={sokolov:'mgu',anna:'mirrorscene',litvinov:'oneiros',sobolev:'novosib',curator17:'darkness',prometheus:'prometey',children:'mirrorscene',anchors:'anchors',mgu:'mgu',khodynka:'khodynka',bunker:'bunker',kruglov:'kruglov',vera:'vera',mansion:'bedroom',gromov:'gromov',severova:'severova',svetlov:'svetlov',astra:'astra',voronov:'voronov'};
 const REGART={0:{img:'moscow',cap:'Москва-Сити, башня «Федерация», 69-й этаж. Штаб-квартира ФАКБ.'},
  1:{img:'mansion',cap:'Особняк под Сосновкой. Дом, в котором время не заканчивается.'},
@@ -1709,7 +1742,7 @@ function render(){
   $('#btnEnd').textContent=C.days?(S.epoch>=7?'Завершить седьмой день':'Завершить день'):(S.epoch>=S.maxEpoch?'Завершить последнюю эпоху':'Завершить эпоху');
   $('#btnEnd').disabled=!!S.over;
   $('#gTeam').innerHTML=teamBar();if(S.coop&&NET.on)coopEndBtn();
-  bindSites();saveGame();floatFx();
+  bindSites();saveGame();floatFx();setBackdrop();
 }
 let globeOn=false;
 function tryMove(id){
@@ -1730,8 +1763,9 @@ function bIcons(r,x,y,rad){const ic={temple:['▲','#e8c27a'],lab:['◆','#6fd3f
   return o.replace(/y="[^"]+"/g,(m,i)=>m);}
 const BN={temple:'Храм памяти',lab:'Лаборатория',mirror:'Зеркало Козырева',core:'Вычислительный узел'};
 function costTxt(c){const p=[];if(c.light)p.push(`✦ ${c.light}`);if(c.know)p.push(`<span class="kn">◈ ${c.know}</span>`);return p.join(' · ')||'бесплатно';}
-function actBtn(a,rid){const cls=a.hero?'heroact':a.law?'law'+a.law:a.k==='human'?'hum':'';
-  return `<button class="act ${cls}${a.why?' dis':''}" data-a="${a.id}" data-g="${a.global?1:0}" ${a.why?'aria-disabled="true"':''}><b>${a.t}</b><span class="c">${costTxt(a.cost)}${a.ap?' · действие':''}</span><small class="${a.why?'why':''}">${a.why||a.d}</small></button>`;}
+const ACTIMG={comfort:['law4','30% 40%'],dream:['bedroom','50% 50%'],temple:['layers','50% 50%'],lab:['law3','70% 50%'],gipnos:['gipnos','35% 45%'],mirror:['law2','50% 60%'],core:['law3','30% 50%'],correct:['law5','50% 30%'],free:['law6','65% 50%'],defy:['curator','50% 20%'],amulet:['amulet','60% 50%'],talk:['oneiros','50% 35%'],hope:['c17','50% 60%'],strike:['sats','40% 50%']};
+function actBtn(a,rid){const cls=a.hero?'heroact':a.law?'law'+a.law:a.k==='human'?'hum':'';const im=a.hero?[E.heroOf(S).art,'50% 25%']:ACTIMG[a.id];
+  return `<button class="act ${cls}${a.why?' dis':''}${im?' hasimg':''}" data-a="${a.id}" data-g="${a.global?1:0}" ${a.why?'aria-disabled="true"':''}>${im?`<span class="ai" style="background-image:url(${ART[im[0]]});background-position:${im[1]}"></span>`:''}<b>${a.t}</b><span class="c">${costTxt(a.cost)}${a.ap?' · действие':''}</span><small class="${a.why?'why':''}">${a.why||a.d}</small></button>`;}
 function moveBlock(r){const H=E.heroOf(S);
   if(r.id===S.heroAt)return `<div class="here"><img alt="" src="${ART[H.art]}"><span><b>Здесь стоит ${H.name}</b><small>Умение героя работает только здесь. Присутствие героя: страх в регионе растёт на 2 медленнее.</small></span></div>`;
   const c=E.moveCost(S,r.id);const why=c.why;
@@ -1742,7 +1776,7 @@ function renderPanel(){
   if(sel==null){h=`<div class="ph"><h3>Выберите регион</h3><small>${S.regions.length} регионов</small></div><p class="hint">Нажмите на материк или кружок на глобусе. Цифра в кружке — страх региона. Цвет материка показывает, чего в нём больше: золото — любви, красный — страха. Светлое кольцо — население.</p>`;}
   else{const r=S.regions[sel];const as=E.actionsFor(S,r).filter(a=>!a.global);
     const ra=S.civ.k==='human'&&REGART[r.id];
-    h=`${ra?`<img alt="" src="${ART[ra.img]}" style="width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;display:block;margin-bottom:10px"><p class="hint" style="margin:-4px 0 8px;font-family:var(--display);font-style:italic;font-size:15px">${ra.cap}</p>`:''}<div class="ph"><h3>${r.name}</h3><small>соседей: ${r.nb.length}</small></div>
+    h=`${regBanner(r,ra)}<div class="ph"><h3>${r.name}</h3><small>соседей: ${r.nb.length}</small></div>
      <div class="stats"><div class="bar fearbar"><div class="h"><span>Страх</span><b class="num">${r.fear}</b></div><div class="track"><i style="width:${r.fear}%"></i></div></div>
      <div class="bar mem"><div class="h"><span>Любовь</span><b class="num">${r.love}</b></div><div class="track"><i style="width:${r.love}%"></i></div></div></div>
      <div class="blds"><span class="chip">Население <b>${r.pop}</b></span>${Object.keys(r.b).map(b=>`<span class="chip">${BN[b]}</span>`).join('')}${r.fear>=90?'<span class="chip" style="color:var(--fear)">Кошмар</span>':''}</div>
@@ -1779,8 +1813,8 @@ $('#btnEnd').onclick=()=>{
   const next=()=>{closeModal();if(S.civ.days&&!S.over)toast(`День ${S.epoch}: ${E.DAYS[S.epoch-1]}`);after();};
   if(S.over){after();return;}
   const struck=S.civ.k==='human'&&notes.some(n=>n.includes('наносит удар'));
-  modal(`${struck?`<img class="art" alt="" src="${ART.darkness}"><p style="margin:10px 16px 0;font-family:var(--display);font-style:italic;font-size:18px;color:var(--ink)">«Мы — дети зеркал…» Тьма сомкнулась.</p>`:''}<div class="bd"><div class="eyebrow">${S.civ.name}</div><h3>${title}</h3>
-    <div class="sum"><div><b style="color:var(--gold)">+${inc.light}</b><small>Свет</small></div><div><b style="color:var(--cyan)">+${inc.know}</b><small>Знание</small></div><div><b style="color:var(--gold)">${S.memory-memBefore>=0?'+':''}${S.memory-memBefore}</b><small>Память</small></div></div>
+  modal(`${sumBanner(title,struck)}<div class="bd">
+    ${sumTiles(inc,S.memory-memBefore)}
     ${notes.length?`<div class="notes">${notes.map(n=>`<div>${n}</div>`).join('')}</div>`:'<p>Эпоха прошла спокойно.</p>'}
     ${(()=>{const js=[];for(const r of S.regions){if(r.site)js.push(`${JN[r.site.t]} — «${r.name}», осталось ${E.fmtDur(E.siteInfo(r.site).left)}`);if(r.rite)js.push(`${JN[r.rite.t]} — «${r.name}», осталось ${E.fmtDur(E.siteInfo(r.rite).left)}`);}
       return js.length?`<p style="font-size:13px"><b style="color:var(--gold)">Ещё в работе:</b> ${js.join('; ')}. Здания начнут приносить доход после завершения.</p>`:'';})()}
@@ -1793,7 +1827,7 @@ function showEvent(){
   if(S.pendingChoice){startChoice(S.pendingChoice.i,true);return;}
   const {e,r,r2}=S.event;const R=S.regions[r],R2=S.regions[r2];
   const can=o=>{const c=o.c||{};return !((c.light&&S.light<c.light)||(c.know&&S.know<c.know)||(c.memory&&S.memory<c.memory));};
-  modal(`${PORTRAIT[e.id]?`<img class="art" alt="" src="${ART[PORTRAIT[e.id]]}" style="aspect-ratio:16/9;object-position:center 30%">`:e.only?`<img class="art" alt="" src="${ART[CIVART[e.only-1]]}" style="aspect-ratio:16/7;object-position:center 40%;filter:${CIVTINT[e.only-1]||'none'}">`:''}<div class="bd"><div class="eyebrow">Событие · ${S.civ.days?'день':'эпоха'} ${S.epoch}</div><h3>${e.t}</h3><p>${e.d(R,R2)}</p>
+  modal(`${PORTRAIT[e.id]||EVIMG[e.id]?`<img class="art evart" alt="" src="${ART[PORTRAIT[e.id]||EVIMG[e.id]]}" style="aspect-ratio:16/9;object-position:center 30%">`:!e.only?`<img class="art evart" alt="" src="${ART[S.civ.k==='human'?'c17':CIVART[S.civ.n-1]]}" style="aspect-ratio:16/7;object-position:center 40%;filter:${CIVTINT[S.civ.n-1]||'none'}">`:e.only?`<img class="art" alt="" src="${ART[CIVART[e.only-1]]}" style="aspect-ratio:16/7;object-position:center 40%;filter:${CIVTINT[e.only-1]||'none'}">`:''}<div class="bd"><div class="eyebrow">Событие · ${S.civ.days?'день':'эпоха'} ${S.epoch}</div><h3>${e.t}</h3><p>${e.d(R,R2)}</p>
     <div class="opts">${e.o.map((o,i)=>`<button class="opt" data-i="${i}" ${can(o)?'':'disabled'}><b>${o.t}</b><small>${optD(o.d)}${can(o)?'':' · не хватает ресурсов'}</small></button>`).join('')}</div></div>`,()=>{
     document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>startChoice(+b.dataset.i));
     if(!e.o.some(can)){ND(st=>{if(st.event&&!st.pendingChoice)E.choose(st,st.event.e.o.length-1);});}
@@ -2032,8 +2066,8 @@ function coopAfter(prev,local){if(!S||!prev)return;
   if(S.event&&(tag===''||(tag.startsWith('ev:')&&S.pendingChoice&&!tag.endsWith(':p'))))showEvent();
 }
 function coopSummary(prev){const ep=prev.epoch;const notes=S.log.filter(l=>l.e===ep&&l.kind==='bad').map(l=>l.t);const inc=S.lastIncome||{light:0,know:0,memory:0};
-  modal(`<div class="bd"><div class="eyebrow">${S.civ.name} · командная игра</div><h3>${S.civ.days?`Итоги дня ${ep}`:`Итоги эпохи ${ep}`}</h3>
-    <div class="sum"><div><b style="color:var(--gold)">+${inc.light}</b><small>Свет</small></div><div><b style="color:var(--cyan)">+${inc.know}</b><small>Знание</small></div><div><b style="color:var(--gold)">${S.memory-prev.memory>=0?'+':''}${S.memory-prev.memory}</b><small>Память</small></div></div>
+  modal(`${sumBanner((S.civ.days?`Итоги дня ${ep}`:`Итоги эпохи ${ep}`),false,'командная игра')}<div class="bd">
+    ${sumTiles(inc,S.memory-prev.memory)}
     ${notes.length?`<div class="notes">${notes.map(n=>`<div>${n}</div>`).join('')}</div>`:'<p>Эпоха прошла спокойно.</p>'}<p>У каждого героя снова ${S.team[Object.keys(S.team)[0]].apMax} действия.</p>
     <button class="btn gold" id="mNext">Дальше</button></div>`,()=>{$('#mNext').onclick=()=>{closeModal();after();};},'sum');}
 function teamBar(){if(!S||!S.coop)return '';return `<div class="team">${Object.keys(S.team).map(id=>{const t=S.team[id],H=E.HEROES.find(h=>h.id===id),mine=id===NET.me,ap=mine?S.ap:t.ap;
@@ -2135,6 +2169,20 @@ function floatFx(){if(!S)return;const cur=S.regions.map(r=>[r.fear,r.love,r.pop]
     items.forEach((it,k)=>{const d=document.createElement('div');d.className='fx '+it[1];d.textContent=it[0];d.style.left=(cv.offsetLeft+pos.x)+'px';d.style.top=(cv.offsetTop+pos.y-10-k*20)+'px';d.style.animationDelay=(k*.12)+'s';box.appendChild(d);setTimeout(()=>d.remove(),2200);});});
   LASTV.v=cur;}
 
+
+/* ===== design: imagery from the art library ===== */
+function civArtKey(){return S.civ.k==='human'?'c17':CIVART[S.civ.n-1];}
+let GBGKEY='';
+function setBackdrop(){if(!S)return;const k=civArtKey();const el=$('#gbgImg');if(!el)return;if(GBGKEY!==k){GBGKEY=k;el.src=ART[k];el.style.filter=`${CIVTINT[S.civ.n-1]&&S.civ.k!=='human'?CIVTINT[S.civ.n-1]+' ':''}blur(14px) brightness(.36) saturate(1.15)`;}
+  const f=E.avgFear(S);$('#gbg').style.setProperty('--dread',Math.max(0,Math.min(1,(f-35)/40)).toFixed(2));}
+function regBanner(r,ra){const t=Math.max(0,Math.min(1,(r.fear-r.love)/60+.5));
+  if(ra)return `<figure class="rban"><img alt="" src="${ART[ra.img]}"><figcaption>${ra.cap}</figcaption><i style="--t:${t.toFixed(2)}"></i></figure>`;
+  const n=S.regions.length,x=Math.round(n>1?r.id/(n-1)*100:50),y=[30,55,40,65,35,60,45,50][r.id%8];
+  return `<figure class="rban anc"><img alt="" src="${ART[civArtKey()]}" style="object-position:${x}% ${y}%;transform:scale(1.12);transform-origin:${x}% ${y}%;filter:${CIVTINT[S.civ.n-1]||'none'}"><figcaption>${S.civ.name} · ${r.name}</figcaption><i style="--t:${t.toFixed(2)}"></i></figure>`;}
+function sumBanner(title,struck,sub){const af=E.avgFear(S);const dark=struck||af>=60;const k=dark?'darkness':civArtKey();
+  return `<div class="sban${dark?' dark':''}"><img alt="" src="${ART[k]}" style="filter:${!dark&&S.civ.k!=='human'?CIVTINT[S.civ.n-1]||'none':'none'}"><div><div class="eyebrow">${S.civ.name}${sub?' · '+sub:''}</div><h3>${title}</h3>${struck?'<p>«Мы — дети зеркал…» Тьма сомкнулась.</p>':dark?'<p>Страх густеет. Куратор смотрит внимательнее.</p>':''}</div></div>`;}
+function sumTiles(inc,dm){const t=(img,pos,v,l,c)=>`<div class="stile"><span style="background-image:url(${ART[img]});background-position:${pos}"></span><b style="color:${c}">${v}</b><small>${l}</small></div>`;
+  return `<div class="stiles">${t('gipnos','35% 45%','+'+inc.light,'Свет','var(--gold)')}${t('law3','70% 50%','+'+inc.know,'Знание','var(--cyan)')}${t('law4','30% 40%',(dm>=0?'+':'')+dm,'Память','var(--gold)')}</div>`;}
 /* ---------- 3D: особняк под Сосновкой (Three.js r128, загружается по требованию) ----------
    Один дом, три уровня в одной сцене: подвал (y = −H), первый этаж (0), второй этаж (H).
    Между ними — широкая дубовая лестница (прямой марш) и узкая винтовая лестница в подвал.
