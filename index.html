@@ -327,6 +327,50 @@ body.m3on{overflow:hidden}
 .site.dreamc .track i{background-image:linear-gradient(90deg,#efe9ff,#b9a2ff 45%,#7a5ad6 75%,#33226e)!important}
 .drow.good .dtrack .now{background-image:linear-gradient(90deg,#e0ffec,#7fe0a8 45%,#3f9e6e 75%,#174d33)!important}
 .drow.bad .dtrack .now{background-image:linear-gradient(90deg,#ffd6dc,#f07a8c 45%,#c22a45 75%,#6e1225)!important}
+
+/* ===== phone: compact header (phase under the title) ===== */
+.gtop{grid-template-columns:auto minmax(0,1fr) auto auto}
+.gtop #btnBack{grid-row:1/3}
+.gtop .gtitle{grid-column:2;grid-row:1}
+.gtop .phase{grid-column:2;grid-row:2;justify-self:start;padding:2px 8px;font-size:10px;margin-top:-4px}
+.gtop #btnCodex2{grid-column:3;grid-row:1/3}.gtop #btnHelp2{grid-column:4;grid-row:1/3}
+.gtop #btnFull{display:none}
+#btnFull1{display:none}@media (min-width:900px) and (pointer:fine){#btnFull1{display:inline-flex}}
+@media (max-width:520px){
+  .wrap{padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px));padding-top:max(10px,env(safe-area-inset-top,0px))}
+  .res b{font-size:18px}.res{gap:5px}.res>div{padding:6px 8px}
+  .acts{grid-template-columns:1fr 1fr}
+  .act{padding:10px}.act small{font-size:11.5px}
+  .endbtn{font-size:18px;padding:11px;bottom:max(8px,env(safe-area-inset-bottom,0px))}
+  #globe{max-width:min(100%,62vh)}
+  .card{border-radius:16px}
+  .ov{padding-left:8px;padding-right:8px}
+}
+/* ===== desktop: the whole screen, three columns ===== */
+@media (min-width:1100px) and (min-height:600px){
+  #scrTitle.wrap{max-width:1180px}
+  #scrTitle .hero{max-height:58vh;aspect-ratio:auto;height:52vh}
+  .timeline{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:10px}
+  #scrGame.wrap{max-width:none;height:100vh;height:100dvh;box-sizing:border-box;padding:14px 22px;overflow:hidden;
+    display:grid;grid-template-columns:clamp(300px,24vw,380px) minmax(0,1fr) clamp(380px,30vw,500px);
+    grid-template-rows:auto auto auto auto auto auto minmax(0,1fr) auto;column-gap:22px;row-gap:0}
+  #scrGame .gtop{grid-column:1/-1;grid-row:1;grid-template-columns:auto minmax(0,1fr) auto auto auto auto;margin-bottom:6px}
+  #scrGame .gtop .phase{grid-column:3;grid-row:1;margin:0;padding:5px 12px;font-size:11px}
+  #scrGame .gtop #btnBack{grid-row:1}#scrGame .gtop #btnCodex2{grid-column:4;grid-row:1}#scrGame .gtop #btnHelp2{grid-column:5;grid-row:1}
+  #scrGame .gtop #btnFull{display:grid;grid-column:6;grid-row:1}
+  #scrGame .gtitle h2{font-size:28px}
+  #gHero{grid-column:1;grid-row:2}#gFlaw{grid-column:1;grid-row:3}#scrGame .res{grid-column:1;grid-row:4}
+  #scrGame .bars{grid-column:1;grid-row:5}#gSpecial{grid-column:1;grid-row:6}
+  #log{grid-column:1;grid-row:7/9;overflow:auto;align-content:start;margin-top:12px;padding-right:4px}
+  #scrGame .mapbox{grid-column:2;grid-row:2/9;margin:0;display:flex;flex-direction:column;justify-content:center;min-height:0}
+  #globe{max-width:min(100%,calc(100dvh - 190px),760px)}
+  #panel{grid-column:3;grid-row:2/8;overflow:auto;margin-top:0;min-height:0;overscroll-behavior:contain}
+  #btnEnd{grid-column:3;grid-row:8;position:static;margin-top:10px}
+  .acts{grid-template-columns:1fr 1fr!important}
+  .card{max-width:560px}
+  .toast{font-size:14px}
+}
+@media (min-width:1600px){#scrGame.wrap{grid-template-columns:400px minmax(0,1fr) 540px}.res b{font-size:24px}}
 </style>
 <style>html,body{margin:0;-webkit-tap-highlight-color:transparent}</style>
 </head>
@@ -339,7 +383,7 @@ body.m3on{overflow:hidden}
     <h1>Сны человеческие<span>Семнадцать циклов</span></h1>
     <p>Более миллиона лет Куратор наблюдает за разумом на Земле. Он создаёт цивилизации, фиксирует каждый их выбор и уничтожает, когда страха и агрессии становится слишком много. Шестнадцать миров уже ушли. Люди — семнадцатая версия.</p>
     <p>Вы — голос, который цивилизации слышат во сне. Гасите страх, копите Память, открывайте законы вселенной. Каждый цикл оставит миф, а в семнадцатом можно разорвать цикл.</p>
-    <div class="row"><button class="btn gold" id="btnStart">Начать</button><button class="btn" id="btnCodex1">Вселенная романа</button><button class="btn" id="btnHelp">Как играть</button></div>
+    <div class="row"><button class="btn gold" id="btnStart">Начать</button><button class="btn" id="btnCodex1">Вселенная романа</button><button class="btn" id="btnHelp">Как играть</button><button class="btn" id="btnFull1">⛶ Во весь экран</button></div>
     <button class="mansionbtn" id="btnMansion"><span><small>3D · вид от первого лица</small><b>Особняк под Сосновкой</b><i>Осмотрите дом, где умер Алексей. Находки усилят 17-й цикл</i></span></button>
   </section>
   <div class="quote">«Цивилизации приходят и уходят. Куратор остаётся.»<small>Хронология предыдущих цивилизаций</small></div>
@@ -358,6 +402,7 @@ body.m3on{overflow:hidden}
     <span class="phase" id="gPhase">Создание</span>
     <button class="icon" id="btnCodex2" aria-label="Вселенная романа">❦</button>
     <button class="icon" id="btnHelp2" aria-label="Как играть">?</button>
+    <button class="icon" id="btnFull" aria-label="Во весь экран" title="Во весь экран (F)">⛶</button>
   </header>
   <button class="herochip" id="gHero"></button>
   <button class="flaw" id="gFlaw"><b>Изъян</b><span id="gFlawT"></span></button>
@@ -1415,7 +1460,7 @@ function tryMove(id){
   if(!res.ok){toast(res.msg||'Нельзя перейти');return;}
   GLOBE.heroMove(res.from);sel=id;render();GLOBE.focus(id);toast(`${E.heroOf(S).name} теперь в регионе «${S.regions[id].name}»`);after();
 }
-function selectRegion(id,fromGlobe){sel=id;render();GLOBE.focus(id);$('#panel').scrollIntoView({block:'nearest',behavior:'smooth'});}
+function selectRegion(id,fromGlobe){sel=id;render();GLOBE.focus(id);if(innerWidth<1100)$('#panel').scrollIntoView({block:'nearest',behavior:'smooth'});else $('#panel').scrollTop=0;}
 function renderMap(){
   if(!globeOn){GLOBE.mount($('#globe'),id=>selectRegion(id,true),id=>tryMove(id));globeOn=true;}
   GLOBE.update();
@@ -1675,6 +1720,12 @@ function startChoice(i,resume){
 function ritePreview(r){if(!r.rite)return [];try{const C2=E.deserialize(E.serialize(S));const a=E.ACTIONS.find(x=>x.id===r.rite.t);const q=C2.regions[r.id];a.run(C2,q);
   for(const x of C2.regions){x.fear=Math.max(0,Math.min(100,Math.round(x.fear)));x.love=Math.max(0,Math.min(100,Math.round(x.love)));}return deltaRows(S,C2);}catch(e){return [];}}
 
+
+/* full screen on desktop */
+function toggleFull(){try{if(!document.fullscreenElement)document.documentElement.requestFullscreen({navigationUI:'hide'}).catch(()=>toast('Браузер не разрешил полный экран. Нажмите F11'));else document.exitFullscreen();}catch(e){toast('Нажмите F11 для полного экрана');}}
+$('#btnFull').onclick=toggleFull;$('#btnFull1').onclick=toggleFull;
+document.addEventListener('keydown',e=>{if((e.key==='f'||e.key==='а')&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!/INPUT|TEXTAREA/.test(document.activeElement.tagName)&&!document.getElementById('m3d'))toggleFull();});
+document.addEventListener('fullscreenchange',()=>{const on=!!document.fullscreenElement;$('#btnFull').textContent=on?'🗗':'⛶';$('#btnFull1').textContent=on?'Выйти из полного экрана':'⛶ Во весь экран';});
 /* ---------- 3D: особняк под Сосновкой (Three.js r128, загружается по требованию) ----------
    Один дом, три уровня в одной сцене: подвал (y = −H), первый этаж (0), второй этаж (H).
    Между ними — широкая дубовая лестница (прямой марш) и узкая винтовая лестница в подвал.
