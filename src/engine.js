@@ -158,18 +158,51 @@ function log(s,t,kind){s.log.unshift({t,kind,e:s.epoch});if(s.log.length>40)s.lo
 function kill(s,r,d){d=Math.min(r.pop,Math.round(d));if(d<=0)return 0;r.pop-=d;
   if(r.b.mirror){s.souls+=d;}else s.lost+=d;return d;}
 
+
+/* ---------- hooks: echoes of decisions, Curator's trials, resonances ---------- */
+const ECHOES={
+ prophet_back:{t:'Пророк возвращается',hint:'Изгнанный пророк не забыл обиды',d:2,f(s,r){r.fear+=12;for(const j of r.nb)s.regions[j].fear+=5;return `пророк вернулся в «${r.name}» с толпой: страх +12, у соседей +5`;}},
+ prophet_gift:{t:'Ученики пророка',hint:'Выслушанный пророк что-то записывает',d:2,f(s,r){s.memory+=4;r.love+=6;return `ученики пророка записали его сны: Память +4, любовь в «${r.name}» +6`;}},
+ lovers_child:{t:'Дитя двух городов',hint:'У благословлённой пары будет ребёнок',d:3,f(s,r,r2){r.love+=8;r2.love+=8;s.memory+=3;return `родилось дитя двух городов: любовь «${r.name}» и «${r2.name}» +8, Память +3`;}},
+ myths_echo:{t:'Эпос',hint:'Записанные мифы обрастают песнями',d:2,f(s){s.memory+=3;for(const x of s.regions)x.love+=2;return 'записанные мифы стали эпосом: Память +3, любовь везде +2';}},
+ myths_lost:{t:'Пустота',hint:'Забытые мифы оставляют пустоту',d:2,f(s){for(const x of s.regions)x.fear+=3;return 'без мифов людям нечем объяснить ночь: страх везде +3';}},
+ famine_riot:{t:'Голодный бунт',hint:'За закрытыми границами копится гнев',d:2,f(s,r){r.fear+=10;kill(s,r,5);return `голодный бунт в «${r.name}»: страх +10, погибли люди`;}},
+ war_peace:{t:'Мост через реку',hint:'Примирённые строят что-то вместе',d:2,f(s,r,r2){r.love+=7;r2.love+=7;s.light+=2;return `«${r.name}» и «${r2.name}» построили мост: любовь +7, Свет +2`;}},
+ war_revenge:{t:'Кровная месть',hint:'Потери войны не забыты',d:2,f(s,r,r2){r.fear+=9;r2.fear+=9;return `кровная месть между «${r.name}» и «${r2.name}»: страх обоих +9`;}}};
+function echo(s,id,r,r2){if(!s.echo)s.echo=[];const E0=ECHOES[id];s.echo.push({id,at:s.epoch+E0.d,r:r?r.id:null,r2:r2?r2.id:null});}
+const TRIALS={
+ calm:{t:'Тишина',d:(s,r)=>`Сделайте страх в «${r.name}» ниже 30`,ok:(s,r)=>r.fear<30,win:'Память +6, Свет +3',lose:'регион теряет людей, страх +12',
+   good(s){s.memory+=6;s.light+=3;},bad(s,r){kill(s,r,10);r.fear+=12;},pick:s=>[...s.regions].sort((a,b)=>b.fear-a.fear)[0]},
+ love:{t:'Сердце',d:(s,r)=>`Поднимите любовь в «${r.name}» до 45`,ok:(s,r)=>r.love>=45,win:'Память +5, любовь соседей +5',lose:'голод Тьмы +12',
+   good(s,r){s.memory+=5;for(const j of r.nb)s.regions[j].love+=5;},bad(s){s.hunger+=12;},pick:s=>[...s.regions].sort((a,b)=>a.love-b.love)[0]},
+ build:{t:'Святилище',d:(s,r)=>`Постройте Храм памяти в «${r.name}»`,ok:(s,r)=>!!r.b.temple,win:'Память +5, Знание +3',lose:'страх везде +4',
+   good(s){s.memory+=5;s.know+=3;},bad(s){for(const x of s.regions)x.fear+=4;},pick:s=>[...s.regions].filter(r=>!r.b.temple).sort((a,b)=>b.nb.length-a.nb.length)[0]||null,need:s=>has(s,4)},
+ hoard:{t:'Запас',d:()=>'Сохраните 15 Света к концу срока',ok:s=>s.light>=15,win:'Знание +5, голод Тьмы −8',lose:'Свет −3',
+   good(s){s.know+=5;s.hunger-=8;},bad(s){s.light=Math.max(0,s.light-3);},pick:s=>s.regions[0]},
+ avg:{t:'Равновесие',d:()=>'Опустите средний страх ниже 30',ok:s=>avgFear(s)<30,win:'Память +7',lose:'голод Тьмы +10',
+   good(s){s.memory+=7;},bad(s){s.hunger+=10;},pick:s=>s.regions[0]}};
+function newTrial(s){const keys=Object.keys(TRIALS).filter(k=>!TRIALS[k].need||TRIALS[k].need(s));const k=keys[Math.floor(s.rng()*keys.length)];const T=TRIALS[k];const r=T.pick(s);if(!r)return;
+  s.trial={k,r:r.id,until:s.epoch+2,t:T.t,d:T.d(s,r),win:T.win,lose:T.lose};}
+function checkTrial(s,notes){const tr=s.trial;if(!tr)return;const T=TRIALS[tr.k],r=s.regions[tr.r];
+  if(T.ok(s,r)){T.good(s,r);s.trialsWon=(s.trialsWon||0)+1;notes.push(`Испытание Куратора «${tr.t}» пройдено: ${tr.win}`);s.trialRes={ok:1,t:tr.t,x:tr.win};s.trial=null;}
+  else if(s.epoch>=tr.until){T.bad(s,r);notes.push(`Испытание Куратора «${tr.t}» провалено: ${tr.lose}`);s.trialRes={ok:0,t:tr.t,x:tr.lose};s.trial=null;}}
+const RES={temple_dream:{t:'Резонанс памяти',d:'Сон памяти в регионе с Храмом: Память +1, любовь соседей +3'},
+ lab_comfort:{t:'Наука утешения',d:'Утешение в регионе с Лабораторией: Знание +2'},
+ mirror_gipnos:{t:'Отражённый страх',d:'«Гипнос» у Зеркала Козырева: Свет +3, но голод Тьмы +2'},
+ hero_dream:{t:'Голос героя',d:'Сон памяти там, где стоит герой: Память +1'}};
+function resonate(s,id,r){if(!s.found)s.found={};s.found[id]=1;s.lastRes=(s.lastRes||[]).concat(id).slice(-4);}
 /* ---------- actions ---------- */
 /* region fatigue: the same comfort/dream in one region weakens until next epoch */
 const tiredK=r=>Math.round(100/(1+.35*(r.tired||0)))/100;
 const ACTIONS=[
  {id:'comfort',t:'Утешение',law:4,ap:1,cost:{light:2},d:'Страх региона −15, любовь +4',
-   run(s,r){const k=tiredK(r);r.fear=clamp(r.fear-Math.round((s.hero==='kruglov'?19:15)*k),0,100);r.love=clamp(r.love+Math.round(4*k),0,100);r.tired=(r.tired||0)+1;}},
+   run(s,r){const k=tiredK(r);r.fear=clamp(r.fear-Math.round((s.hero==='kruglov'?19:15)*k),0,100);r.love=clamp(r.love+Math.round(4*k),0,100);r.tired=(r.tired||0)+1;if(r.b.lab){s.know+=2;resonate(s,'lab_comfort',r);}}},
  {id:'dream',t:'Сон памяти',law:4,ap:1,cost:{light:3},d:'Любовь региона +16, Память +2',
-   run(s,r){const k=tiredK(r);r.tired=(r.tired||0)+1;r.love=clamp(r.love+Math.round((r.b.mirror?24:16)*k),0,100);const g=s.civ.k==='archive'?5:s.civ.k==='wings'?4:2;s.memory+=g;s.stats.dreams++;}},
+   run(s,r){const k=tiredK(r);r.tired=(r.tired||0)+1;r.love=clamp(r.love+Math.round((r.b.mirror?24:16)*k),0,100);if(r.b.temple){s.memory+=1;for(const j of r.nb)s.regions[j].love=clamp(s.regions[j].love+3,0,100);resonate(s,'temple_dream',r);}if(atH(s,r.id)){s.memory+=1;resonate(s,'hero_dream',r);}const g=s.civ.k==='archive'?5:s.civ.k==='wings'?4:2;s.memory+=g;s.stats.dreams++;}},
  {id:'temple',t:'Храм памяти',law:4,ap:1,cost:{light:5},build:'temple',d:'Каждую эпоху: любовь +4, Память +1, страх здесь и у соседей ниже'},
  {id:'lab',t:'Лаборатория',law:4,ap:1,cost:{light:4},build:'lab',d:'Каждую эпоху: Знание +3'},
  {id:'gipnos',t:'«Гипнос»',law:1,ap:1,cost:{},need:r=>r.fear>=20,d:'Свет + страх/4, страх −8, голод Тьмы + страх/3',
-   run(s,r){const k=s.civ.k==='sacr'?2:1;s.light+=Math.round(r.fear/4*k);s.hunger+=Math.round(r.fear/3*k*(s.hero==='malyshev'?.5:1));r.fear=clamp(r.fear-8,0,100);s.stats.gipnos++;}},
+   run(s,r){const k=s.civ.k==='sacr'?2:1;s.light+=Math.round(r.fear/4*k);s.hunger+=Math.round(r.fear/3*k*(s.hero==='malyshev'?.5:1));if(r.b.mirror){s.light+=3;s.hunger+=2;resonate(s,'mirror_gipnos',r);}r.fear=clamp(r.fear-8,0,100);s.stats.gipnos++;}},
  {id:'mirror',t:'Зеркало Козырева',law:2,ap:1,cost:{know:6},build:'mirror',d:'Души погибших здесь сохраняются. Эмоции усиливаются: Сон памяти сильнее, страх растёт быстрее'},
  {id:'core',t:'Вычислительный узел',law:3,ap:1,cost:{know:7},build:'core',d:'Знание +1. Два узла рождают разум'},
  {id:'correct',t:'Коррекция Куратора',law:5,ap:0,cost:{},need:(r,s)=>s.corrections>0,d:'Страх региона → 0, голод Тьмы −30. Раз за цикл',
@@ -275,15 +308,15 @@ function act(s,id,rid){
 const pick=(s,arr)=>arr[Math.floor(s.rng()*arr.length)];
 const EVENTS=[
  {id:'prophet',t:'Пророк кошмаров',d:r=>`В регионе «${r.name}» человек рассказывает всем свои кошмары. Толпы слушают.`,
-  o:[{t:'Изгнать пророка',d:'Страх +10, Свет +2',f(s,r){r.fear+=10;s.light+=2;}},{t:'Выслушать его',d:'Свет −2, страх −10, Память +2',c:{light:2},f(s,r){r.fear-=10;s.memory+=2;}}]},
+  o:[{t:'Изгнать пророка',d:'Страх +10, Свет +2',f(s,r){r.fear+=10;s.light+=2;echo(s,'prophet_back',r);}},{t:'Выслушать его',d:'Свет −2, страх −10, Память +2',c:{light:2},f(s,r){r.fear-=10;s.memory+=2;echo(s,'prophet_gift',r);}}]},
  {id:'prometheus',min:17,t:'Корпорация «Прометей»',d:()=>'«Больше, чем люди». Корпорация предлагает оружие, убивающее во сне, в обмен на энергию.',
   o:[{t:'Принять',d:'Свет +8, голод Тьмы +20',f(s){s.light+=8;s.hunger+=20;}},{t:'Отказать',d:'Страх во всех регионах +3',f(s){for(const r of s.regions)r.fear+=3;}}]},
  {id:'lovers',t:'Влюблённые из разных городов',d:(r,r2)=>`Двое из «${r.name}» и «${r2.name}» нашли друг друга во сне.`,
-  o:[{t:'Благословить',d:'Свет −2, любовь обоих регионов +12',c:{light:2},f(s,r,r2){r.love+=12;r2.love+=12;}},{t:'Не вмешиваться',d:'Ничего не происходит',f(){}}]},
+  o:[{t:'Благословить',d:'Свет −2, любовь обоих регионов +12',c:{light:2},f(s,r,r2){r.love+=12;r2.love+=12;echo(s,'lovers_child',r,r2);}},{t:'Не вмешиваться',d:'Ничего не происходит',f(){}}]},
  {id:'myths',t:'Мифы предков',d:()=>'Старики пересказывают легенды о прежних мирах. «Мифы — это память».',
-  o:[{t:'Записать',d:'Знание −2, Память +5',c:{know:2},f(s){s.memory+=5;}},{t:'Забыть',d:'Знание +3',f(s){s.know+=3;}}]},
+  o:[{t:'Записать',d:'Знание −2, Память +5',c:{know:2},f(s){s.memory+=5;echo(s,'myths_echo');}},{t:'Забыть',d:'Знание +3',f(s){s.know+=3;echo(s,'myths_lost');}}]},
  {id:'famine',t:'Голод',d:r=>`В регионе «${r.name}» кончились запасы.`,
-  o:[{t:'Открыть хранилища',d:'Свет −4, страх везде −4',c:{light:4},f(s){for(const x of s.regions)x.fear-=4;}},{t:'Закрыть границы',d:'Страх региона +15, соседей +8',f(s,r){r.fear+=15;for(const i of r.nb)s.regions[i].fear+=8;}}]},
+  o:[{t:'Открыть хранилища',d:'Свет −4, страх везде −4',c:{light:4},f(s){for(const x of s.regions)x.fear-=4;}},{t:'Закрыть границы',d:'Страх региона +15, соседей +8',f(s,r){r.fear+=15;for(const i of r.nb)s.regions[i].fear+=8;echo(s,'famine_riot',r);}}]},
  {id:'mirrorhouse',min:3,t:'Вогнутые зеркала',d:r=>`В регионе «${r.name}» нашли пять вогнутых панелей — наследие прежних мастеров. В них видны чужие лица.`,
   o:[{t:'Изучить',d:'Знание +5, страх региона +8',f(s,r){s.know+=5;r.fear+=8;}},{t:'Запечатать',d:'Голод Тьмы −6',f(s){s.hunger-=6;}}]},
  {id:'hypnos',min:2,t:'Учёный и машина снов',d:()=>'Гениальный инженер хочет превращать кошмары в электричество.',
@@ -291,7 +324,7 @@ const EVENTS=[
  {id:'shared',t:'Общий сон',d:()=>'Этой ночью всем снится один и тот же сон.',
   o:[{t:'Направить к свету',d:'Свет −3, любовь везде +6',c:{light:3},f(s){for(const r of s.regions)r.love+=6;}},{t:'Позволить кошмару',d:'Страх везде +6, Свет +3',f(s){for(const r of s.regions)r.fear+=6;s.light+=3;}}]},
  {id:'war',t:'Спор за реки',d:(r,r2)=>`«${r.name}» и «${r2.name}» готовы воевать.`,
-  o:[{t:'Примирить',d:'Свет −4, страх обоих −10',c:{light:4},f(s,r,r2){r.fear-=10;r2.fear-=10;}},{t:'Не вмешиваться',d:'Страх обоих +14, потери',f(s,r,r2){r.fear+=14;r2.fear+=14;kill(s,r,5);kill(s,r2,5);}}]},
+  o:[{t:'Примирить',d:'Свет −4, страх обоих −10',c:{light:4},f(s,r,r2){r.fear-=10;r2.fear-=10;echo(s,'war_peace',r,r2);}},{t:'Не вмешиваться',d:'Страх обоих +14, потери',f(s,r,r2){r.fear+=14;r2.fear+=14;kill(s,r,5);kill(s,r2,5);echo(s,'war_revenge',r,r2);}}]},
  {id:'curator',min:5,t:'Куратор наблюдает',d:()=>'«Страх — плата за развитие. А я — баланс». Можно воззвать к его протоколам.',
   o:[{t:'Воззвать',d:'Память −4, Коррекция +1',c:{memory:4},f(s){s.corrections++;}},{t:'Промолчать',d:'Память +2',f(s){s.memory+=2;}}]},
  {id:'choir',t:'Детский хор',d:r=>`В регионе «${r.name}» дети поют песню, которую никто их не учил.`,
@@ -506,6 +539,8 @@ function endEpoch(s){
     else{s.ai='hostile';notes.push('Разум родился из страха: голод Тьмы растёт быстрее');}
   }
   if(s.ai==='ally'||(k==='human'&&s.one>=3)){const t=[...R].sort((a,b)=>b.fear-a.fear)[0];t.fear-=10;}
+  // echoes of past decisions
+  if(s.echo&&s.echo.length){const due=s.echo.filter(x=>x.at<=s.epoch);s.echo=s.echo.filter(x=>x.at>s.epoch);for(const x of due){const t=ECHOES[x.id].f(s,R[x.r],R[x.r2]);notes.push('Эхо решения: '+t);}}
   // income
   const tyr=k==='tyrant'?1.5:1;
   const lightIn=Math.max(0,Math.round((3+R.reduce((a,r)=>a+r.love,0)/40)*tyr));
@@ -522,10 +557,11 @@ function endEpoch(s){
     s.hunger=25;notes.push(`${k==='human'?'Онейрос':'Тьма'} наносит удар: «${t.name}», погибло ${d}`);norm(s);
   }
   for(const t of notes)log(s,t,'bad');
+  s.trialRes=null;{const tn=[];checkTrial(s,tn);norm(s);for(const t of tn)log(s,t,s.trialRes&&s.trialRes.ok?'good':'bad');}
   s.lastIncome={light:lightIn,know:knowIn,memory:Math.round(memIn)};
   checkEnd(s,true);
   for(const r of R)if(r.tired)r.tired=Math.max(0,r.tired-1);
-  if(!s.over){s.epoch++;s.ap=s.apMax;s.freeMove=1;if(s.team)for(const id in s.team){const t=s.team[id];t.ap=t.apMax;t.free=1;t.ready=0;}drawEvent(s);}
+  if(!s.over){s.epoch++;s.ap=s.apMax;s.freeMove=1;if(s.team)for(const id in s.team){const t=s.team[id];t.ap=t.apMax;t.free=1;t.ready=0;}if(!s.trial&&s.epoch%3===2&&s.epoch<s.maxEpoch)newTrial(s);drawEvent(s);}
 }
 function checkEnd(s,epochEnd){
   if(s.over)return;const C=s.civ;
@@ -543,6 +579,6 @@ function checkEnd(s,epochEnd){
   if(epochEnd&&s.epoch>=s.maxEpoch)s.over={win:false,why:'Время цикла вышло. Куратор начинает Очищение.'};
 }
 function stars(s){if(!s.over||!s.over.win)return 0;let st=1;if(avgFear(s)<40)st++;if(s.lost<=s.initPop*.15)st++;return st;}
-return {DIFFS,applyDiff,TEAMS,TEAM_IDS,teamIn,teamOut,newTeamGame,RITE_TIME,jobsOf,BUILD_TIME,BUILD_STAGES,fmtDur,siteInfo,tickBuilds,rushCost,rush,serialize,deserialize,moveCost,moveHero,contOf,HEROES,heroOf,DAYS,CIVS,LAWS,ACTIONS,EVENTS,ONEIROS_STAGES,newGame,actionsFor,act,endEpoch,choose,avgFear,avgLove,totalPop,stars,lawsOpen};
+return {ECHOES,TRIALS,RES,DIFFS,applyDiff,TEAMS,TEAM_IDS,teamIn,teamOut,newTeamGame,RITE_TIME,jobsOf,BUILD_TIME,BUILD_STAGES,fmtDur,siteInfo,tickBuilds,rushCost,rush,serialize,deserialize,moveCost,moveHero,contOf,HEROES,heroOf,DAYS,CIVS,LAWS,ACTIONS,EVENTS,ONEIROS_STAGES,newGame,actionsFor,act,endEpoch,choose,avgFear,avgLove,totalPop,stars,lawsOpen};
 })();
 if(typeof module!=='undefined')module.exports=ENGINE;

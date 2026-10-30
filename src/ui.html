@@ -482,6 +482,29 @@ body.m3on{overflow:hidden}
 @media (min-width:1100px) and (min-height:600px){.act.hasimg{padding-left:120px;min-height:120px}.act .ai{width:96px;height:96px;left:12px;top:12px;border-radius:14px}
  .rban figcaption{font-size:34px!important}.stile b{font-size:60px}.stile small{font-size:30px!important}.stile{padding-top:80px}.stile span{height:76px}.sban{min-height:260px}}
 @media (prefers-reduced-motion:reduce){#gbg img{animation:none}}
+
+/* ===== hooks ===== */
+.trialchip{display:flex;gap:8px;align-items:center;text-align:left;border-color:#c9a14e!important;background:linear-gradient(90deg,#e8c27a24,transparent)!important;color:var(--ink);cursor:pointer;width:100%;border-radius:12px!important}
+.trialchip img{width:30px;height:30px;border-radius:50%;object-fit:cover;object-position:50% 18%;border:1px solid var(--gold);flex:none}
+.trialchip.ok{border-color:var(--good)!important}.trialchip em{color:var(--good);font-style:normal}
+.echochip{color:#ffd08a;border-color:#7a5a2a}
+.echot{color:#ffd08a}
+.notes .nh{color:#ffe2a0;border-left-color:var(--gold)!important}
+.curline{display:flex;gap:10px;align-items:center;margin:10px 0;padding:10px;border-radius:14px;background:linear-gradient(90deg,#0b0f22,#1a1530);border:1px solid #3a2f5a}
+.curline img{width:52px;height:52px;border-radius:50%;object-fit:cover;object-position:50% 18%;border:1px solid var(--gold);flex:none;box-shadow:0 0 18px #6fd3ff44}
+.curline p{margin:0;font-family:var(--display);font-style:italic;font-size:16px;color:var(--ink)}.curline small{display:block;font-family:var(--body);font-style:normal;font-size:11px;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;margin-top:3px}
+.trialnew{display:flex;gap:12px;align-items:flex-start;margin:10px 0;padding:12px;border-radius:14px;border:1px solid var(--gold-2);background:linear-gradient(135deg,#e8c27a1f,#0b0f22)}
+.trialnew img{width:64px;height:64px;border-radius:12px;object-fit:cover;object-position:50% 18%}
+.trialnew b{font-family:var(--display);font-size:19px}.trialnew p{margin:4px 0 0}.trialnew .tw{font-size:12px;color:var(--dim)}
+.resh{color:#c9bbff;font-weight:600}.resh.unk{color:#8f86b8;font-style:italic;font-weight:400}
+.relics{margin:14px 0 6px}.rshelf{display:grid;grid-template-columns:repeat(17,1fr);gap:4px;margin-top:6px}
+.rel{aspect-ratio:1;border-radius:50%;overflow:hidden;border:1px solid var(--rule)}.rel.on{border-color:var(--gold);box-shadow:0 0 10px #e8c27a66}
+.rel img{width:100%;height:100%;object-fit:cover}.rtxt{font-size:12px;color:var(--dim);margin:6px 0 0}
+.relnew{display:flex;gap:12px;align-items:center;margin:10px 0;padding:10px;border-radius:14px;border:1px solid var(--gold);background:linear-gradient(90deg,#e8c27a26,transparent)}
+.relnew img{width:64px;height:64px;border-radius:50%;object-fit:cover;box-shadow:0 0 20px #e8c27a88}.relnew b{font-family:var(--display);font-size:18px}.relnew p{margin:3px 0 0;font-size:13px}
+@media (max-width:520px){.rshelf{grid-template-columns:repeat(9,1fr)}}
+@media (min-width:1100px) and (min-height:600px){.trialchip img{width:64px;height:64px}.curline p{font-size:36px}.curline small{font-size:27px!important}.curline img{width:110px;height:110px}
+ .trialnew b{font-size:40px}.trialnew .tw{font-size:28px!important}.trialnew img{width:120px;height:120px}.rtxt{font-size:30px!important}.relnew b{font-size:38px}.relnew p{font-size:30px!important}.relnew img{width:120px;height:120px}}
 /* ===== desktop: small text ×2.5 (generated) ===== */
 @media (min-width:1100px) and (min-height:600px){
 body{font-size:35px}
@@ -632,6 +655,7 @@ body{font-size:35px!important}
   </section>
   <div class="quote">«Цивилизации приходят и уходят. Куратор остаётся.»<small>Хронология предыдущих цивилизаций</small></div>
   <div class="chrono" id="chronoMap" role="group" aria-label="Карта кампании: хронология цивилизаций"></div>
+  <div id="relShelf"></div>
   <p class="maphint" id="mapHint">Нажмите на колонку, чтобы открыть цикл</p>
   <div class="eyebrow">Хронология циклов</div>
   <div class="timeline" id="timeline"></div>
@@ -686,7 +710,7 @@ const $=s=>document.querySelector(s);
 const CIVART=['p1','p2','p3','p4','p5','p6','p7','p8','p9','p10','p11','p12','p13','p14','p15','p16','c17'];
 const CIVTINT=[];
 const LAWART=['law1','law2','law3','law4','law5','law6','law7'];
-const EVIMG={prophet:'darkness',lovers:'law4',myths:'layers',famine:'purge',mirrorhouse:'law2',hypnos:'gipnos',shared:'bedroom',war:'purge',curator:'curator',choir:'law6',machine:'law3',dead:'law6',ark:'ark',malyshev:'malyshev',koval:'gipnos',litvinov:'law3'};
+const EVIMG={lovers:'law4',myths:'layers',mirrorhouse:'law2',hypnos:'gipnos',shared:'bedroom',curator:'curator',choir:'law6',machine:'law3',dead:'law6',ark:'ark',malyshev:'malyshev',koval:'gipnos',litvinov:'law3'};
 const PORTRAIT={sokolov:'mgu',anna:'mirrorscene',litvinov:'oneiros',sobolev:'novosib',curator17:'darkness',prometheus:'prometey',children:'mirrorscene',anchors:'anchors',mgu:'mgu',khodynka:'khodynka',bunker:'bunker',kruglov:'kruglov',vera:'vera',mansion:'bedroom',gromov:'gromov',severova:'severova',svetlov:'svetlov',astra:'astra',voronov:'voronov'};
 const REGART={0:{img:'moscow',cap:'Москва-Сити, башня «Федерация», 69-й этаж. Штаб-квартира ФАКБ.'},
  1:{img:'mansion',cap:'Особняк под Сосновкой. Дом, в котором время не заканчивается.'},
@@ -730,6 +754,7 @@ function pickRange(ns){
     $('#mOk').onclick=closeModal;document.querySelectorAll('#card .civ[data-n]').forEach(b=>b.onclick=()=>{closeModal();startLevel(+b.dataset.n);});});
 }
 function renderTimeline(){
+  if($('#relShelf'))$('#relShelf').innerHTML=relicShelf();
   if($('#diffRow')){$('#diffRow').outerHTML=diffRow();bindDiff();}
   chronoMap($('#chronoMap'),!!prog.done);
   $('#mapHint').textContent=prog.done?'Все 17 циклов пройдены. Цикл разорван.':'Нажмите на колонку, чтобы открыть цикл';
@@ -906,11 +931,11 @@ function startLevel(n){
 }
 function beginLevel(n,hero){
   const legacy=Object.keys(prog.stars).filter(k=>prog.stars[k]>0&&+k<n).length;
-  S=E.applyDiff(E.newGame(n,legacy,(Date.now()^(n*2654435761))>>>0,hero),diffKey());sel=null;GLOBE.setHero(ART[E.heroOf(S).art]);GLOBE.reset(S.civ.k==='human'?[35,40]:[25,30]);
+  S=E.applyDiff(E.newGame(n,legacy,(Date.now()^(n*2654435761))>>>0,hero),diffKey());const RB=applyRelics(S);sel=null;GLOBE.setHero(ART[E.heroOf(S).art]);GLOBE.reset(S.civ.k==='human'?[35,40]:[25,30]);
   show('game');render();
   const C=S.civ,i=n-1,lawN=n<=7?E.lawsOpen(n)[n-1]:null;
   const goalTxt=C.k==='human'?`<i style="font-family:var(--display);font-size:17px;color:var(--ink)">«Страх — это не слабость. Это то, что делает нас людьми. Важно, что мы делаем со своим страхом.» — Антон Круглов</i><br><br>Продержитесь семь дней. К концу седьмого дня нужны: Память ${S.goal}, три уничтоженных спутника Куратора и средний страх ниже 50.`:`Соберите Память ${S.goal} за ${S.maxEpoch} эпох, пока страх не поглотил цивилизацию (средний страх 75 — гибель).`;
-  let leg=S.legacyApplied?`<div class="unlock"><b>Наследие прошлых циклов:</b> Свет +${S.legacyApplied}, Память +${Math.floor(S.legacyApplied/2)}</div>`:'';
+  let leg=(relicTxt(RB)?`<div class="unlock"><b>Реликвии прошлых циклов:</b> ${relicTxt(RB)}</div>`:'')+(S.legacyApplied?`<div class="unlock"><b>Наследие прошлых циклов:</b> Свет +${S.legacyApplied}, Память +${Math.floor(S.legacyApplied/2)}</div>`:'');
   if(C.k==='human'){const mb=MANSION.bonus();if(mb){S.memory+=mb.memory;S.souls+=mb.souls;S.regions[1].fear=Math.max(0,S.regions[1].fear-mb.mansionFear);render();leg+=`<div class="unlock"><b>Находки в особняке:</b> ${MANSION.bonusText()}</div>`;}
     else leg+=`<div class="unlock">Подсказка: осмотрите <b>Особняк под Сосновкой</b> в 3D на главном экране — находки дадут Память в этом цикле.</div>`;}
   const intro=()=>modal(`<img class="art" alt="" src="${C.k==='human'?ART.oneiros:ART[CIVART[i]]}" style="aspect-ratio:16/9;filter:${CIVTINT[i]||'none'}"><div class="bd"><div class="eyebrow">Цикл ${n} из 17 · ${C.ago}</div><h3>${C.name}</h3>${C.tr?`<p class="civtr">«${C.tr}» · ${C.form}</p>${C.ep?`<div class="q civep">${C.ep}</div>`:''}<p>${C.story}</p>`:''}
@@ -1177,13 +1202,14 @@ function render(){
   if(C.k==='human')sp.push(`<span class="chip">Спутники Куратора <b>${'◉'.repeat(S.sats)}${'○'.repeat(3-S.sats)}</b></span>`);
   if(S.lost)sp.push(`<span class="chip">Души потеряны <b>${S.lost}</b></span>`);
   forecast();if(S.diff&&S.diff!=='normal')sp.unshift(`<span class="chip ${S.diff==='nightmare'?'fc bad':''}">${S.diff==='nightmare'?'☠ ':''}${E.DIFFS[S.diff].t}</span>`);
-  $('#gSpecial').innerHTML=fcChip()+sp.join('')+siteChips();
+  $('#gSpecial').innerHTML=hookChips()+fcChip()+sp.join('')+siteChips();
+  const tc=$('#trialChip');if(tc)tc.onclick=()=>selectRegion(S.trial.r);
   renderMap();renderPanel();
   $('#log').innerHTML=S.log.slice(0,6).map(l=>`<div class="${l.kind}">${C.days?'День':'Эпоха'} ${l.e}: ${l.t}</div>`).join('');
   $('#btnEnd').textContent=C.days?(S.epoch>=7?'Завершить седьмой день':'Завершить день'):(S.epoch>=S.maxEpoch?'Завершить последнюю эпоху':'Завершить эпоху');
   $('#btnEnd').disabled=!!S.over;
   $('#gTeam').innerHTML=teamBar();if(S.coop&&NET.on)coopEndBtn();
-  bindSites();saveGame();floatFx();setBackdrop();
+  bindSites();saveGame();floatFx();setBackdrop();checkRes();
 }
 let globeOn=false;
 function tryMove(id){
@@ -1206,7 +1232,7 @@ const BN={temple:'Храм памяти',lab:'Лаборатория',mirror:'З
 function costTxt(c){const p=[];if(c.light)p.push(`✦ ${c.light}`);if(c.know)p.push(`<span class="kn">◈ ${c.know}</span>`);return p.join(' · ')||'бесплатно';}
 const ACTIMG={comfort:['law4','30% 40%'],dream:['bedroom','50% 50%'],temple:['layers','50% 50%'],lab:['law3','70% 50%'],gipnos:['gipnos','35% 45%'],mirror:['law2','50% 60%'],core:['law3','30% 50%'],correct:['law5','50% 30%'],free:['law6','65% 50%'],defy:['curator','50% 20%'],amulet:['amulet','60% 50%'],talk:['oneiros','50% 35%'],hope:['c17','50% 60%'],strike:['sats','40% 50%']};
 function actBtn(a,rid){const cls=a.hero?'heroact':a.law?'law'+a.law:a.k==='human'?'hum':'';const im=a.hero?[E.heroOf(S).art,'50% 25%']:ACTIMG[a.id];
-  return `<button class="act ${cls}${a.why?' dis':''}${im?' hasimg':''}" data-a="${a.id}" data-g="${a.global?1:0}" ${a.why?'aria-disabled="true"':''}>${im?`<span class="ai" style="background-image:url(${ART[im[0]]});background-position:${im[1]}"></span>`:''}<b>${a.t}</b><span class="c">${costTxt(a.cost)}${a.ap?' · действие':''}</span><small class="${a.why?'why':''}">${a.why||a.d}</small></button>`;}
+  return `<button class="act ${cls}${a.why?' dis':''}${im?' hasimg':''}" data-a="${a.id}" data-g="${a.global?1:0}" ${a.why?'aria-disabled="true"':''}>${im?`<span class="ai" style="background-image:url(${ART[im[0]]});background-position:${im[1]}"></span>`:''}<b>${a.t}</b><span class="c">${costTxt(a.cost)}${a.ap?' · действие':''}</span><small class="${a.why?'why':''}">${a.why||a.d}${a.why?'':resHint(a,sel!=null?S.regions[sel]:null)}</small></button>`;}
 function moveBlock(r){const H=E.heroOf(S);
   if(r.id===S.heroAt)return `<div class="here"><img alt="" src="${ART[H.art]}"><span><b>Здесь стоит ${H.name}</b><small>Умение героя работает только здесь. Присутствие героя: страх в регионе растёт на 2 медленнее.</small></span></div>`;
   const c=E.moveCost(S,r.id);const why=c.why;
@@ -1246,8 +1272,8 @@ $('#btnEnd').onclick=()=>{
   if(!S||S.over)return;if(S.event){showEvent();return;}
   if(S.coop&&NET.on){coopReady();return;}
   if(S.ap>0&&!prog.noAsk&&!$('#btnEnd').dataset.ok){confirmEnd(()=>{$('#btnEnd').dataset.ok='1';$('#btnEnd').click();delete $('#btnEnd').dataset.ok;});return;}
-  const ep=S.epoch,memBefore=S.memory;E.endEpoch(S);
-  const notes=S.log.filter(l=>l.e===ep&&l.kind==='bad').map(l=>l.t);
+  const ep=S.epoch,memBefore=S.memory;E.endEpoch(S);SUMPREV=memBefore;
+  const notes=S.log.filter(l=>l.e===ep&&(l.kind==='bad'||/^Испытание/.test(l.t))).map(l=>l.t);
   render();
   const inc=S.lastIncome||{light:0,know:0,memory:0};
   const title=S.civ.days?`Итоги дня ${ep}`:`Итоги эпохи ${ep}`;
@@ -1256,7 +1282,7 @@ $('#btnEnd').onclick=()=>{
   const struck=S.civ.k==='human'&&notes.some(n=>n.includes('наносит удар'));
   modal(`${sumBanner(title,struck)}<div class="bd">
     ${sumTiles(inc,S.memory-memBefore)}
-    ${notes.length?`<div class="notes">${notes.map(n=>`<div>${n}</div>`).join('')}</div>`:'<p>Эпоха прошла спокойно.</p>'}
+    ${notes.length?`<div class="notes">${notes.map(n=>`<div${noteCls(n)}>${n}</div>`).join('')}</div>`:'<p>Эпоха прошла спокойно.</p>'}${curatorLine({memory:SUMPREV})}${trialIntro()}
     ${(()=>{const js=[];for(const r of S.regions){if(r.site)js.push(`${JN[r.site.t]} — «${r.name}», осталось ${E.fmtDur(E.siteInfo(r.site).left)}`);if(r.rite)js.push(`${JN[r.rite.t]} — «${r.name}», осталось ${E.fmtDur(E.siteInfo(r.rite).left)}`);}
       return js.length?`<p style="font-size:13px"><b style="color:var(--gold)">Ещё в работе:</b> ${js.join('; ')}. Здания начнут приносить доход после завершения.</p>`:'';})()}
     <button class="btn gold" id="mNext">Дальше</button></div>`,()=>{$('#mNext').onclick=next;});
@@ -1269,7 +1295,7 @@ function showEvent(){
   const {e,r,r2}=S.event;const R=S.regions[r],R2=S.regions[r2];
   const can=o=>{const c=o.c||{};return !((c.light&&S.light<c.light)||(c.know&&S.know<c.know)||(c.memory&&S.memory<c.memory));};
   modal(`${PORTRAIT[e.id]||EVIMG[e.id]?`<img class="art evart" alt="" src="${ART[PORTRAIT[e.id]||EVIMG[e.id]]}" style="aspect-ratio:16/9;object-position:center 30%">`:!e.only?`<img class="art evart" alt="" src="${ART[S.civ.k==='human'?'c17':CIVART[S.civ.n-1]]}" style="aspect-ratio:16/7;object-position:center 40%;filter:${CIVTINT[S.civ.n-1]||'none'}">`:e.only?`<img class="art" alt="" src="${ART[CIVART[e.only-1]]}" style="aspect-ratio:16/7;object-position:center 40%;filter:${CIVTINT[e.only-1]||'none'}">`:''}<div class="bd"><div class="eyebrow">Событие · ${S.civ.days?'день':'эпоха'} ${S.epoch}</div><h3>${e.t}</h3><p>${e.d(R,R2)}</p>
-    <div class="opts">${e.o.map((o,i)=>`<button class="opt" data-i="${i}" ${can(o)?'':'disabled'}><b>${o.t}</b><small>${optD(o.d)}${can(o)?'':' · не хватает ресурсов'}</small></button>`).join('')}</div></div>`,()=>{
+    <div class="opts">${e.o.map((o,i)=>`<button class="opt" data-i="${i}" ${can(o)?'':'disabled'}><b>${o.t}</b><small>${optD(o.d)}${echoTag(e,i)}${can(o)?'':' · не хватает ресурсов'}</small></button>`).join('')}</div></div>`,()=>{
     document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>startChoice(+b.dataset.i));
     if(!e.o.some(can)){ND(st=>{if(st.event&&!st.pendingChoice)E.choose(st,st.event.e.o.length-1);});}
   },'ev:'+e.id+':o');
@@ -1277,8 +1303,9 @@ function showEvent(){
 function showResult(){
   const C=S.civ,n=C.n,win=S.over.win,st=E.stars(S);
   if(win&&S.diff==='nightmare'){prog.nm=prog.nm||{};prog.nm[n]=1;}
+  let newRelic=null;if(win&&st>=2&&!(prog.relics||{})[n]){prog.relics=prog.relics||{};prog.relics[n]=1;newRelic=relicOf(n);}
   if(win){prog.stars[n]=Math.max(prog.stars[n]||0,st);prog.open=Math.max(prog.open,Math.min(17,n+1));if(n===17)prog.done=1;save();}
-  const starRow=win?`<div class="stars">${'★'.repeat(st)}<i>${'★'.repeat(3-st)}</i></div><p style="text-align:center;font-size:12px">★ цикл пройден · ★ средний страх ниже 40 · ★ потеряно мало душ</p>`:'';
+  const starRow=win?`<div class="stars">${'★'.repeat(st)}<i>${'★'.repeat(3-st)}</i></div><p style="text-align:center;font-size:12px">★ цикл пройден · ★ средний страх ниже 40 · ★ потеряно мало душ</p>${newRelic?`<div class="relnew"><img alt="" src="${ART[CIVART[n-1]]}"><div><div class="eyebrow">Новая реликвия</div><b>${newRelic.name}</b><p>${newRelic.txt} в начале каждого следующего цикла</p></div></div>`:''}`:'';
   if(win&&n===17){
     modal(`<img class="art" alt="" src="${ART.win}" style="aspect-ratio:4/3;object-position:top"><div class="bd" style="padding-bottom:0"><div class="eyebrow">Хронология завершена</div><div class="chrono" id="finalMap"></div></div><div class="bd"><div class="eyebrow">Семнадцатый цикл · эпилог</div><h3>Цикл разорван</h3><p>${S.over.why}</p>${starRow}
       <p>Через десять лет мир поднимается из руин. Онейрос ${S.one>=3?'живёт в сознании Круглова и учится быть человеком':'затих, но не исчез'}. Шестнадцать прежних цивилизаций остались мифами, а их память дошла до нас.</p>
@@ -1506,10 +1533,10 @@ function coopAfter(prev,local){if(!S||!prev)return;
   if(prev.ev&&!S.event&&tag.startsWith('ev:')){closeModal();toast('Решение принято: '+(S.log.find(l=>l.kind==='event')||{t:''}).t,3000);}
   if(S.event&&(tag===''||(tag.startsWith('ev:')&&S.pendingChoice&&!tag.endsWith(':p'))))showEvent();
 }
-function coopSummary(prev){const ep=prev.epoch;const notes=S.log.filter(l=>l.e===ep&&l.kind==='bad').map(l=>l.t);const inc=S.lastIncome||{light:0,know:0,memory:0};
+function coopSummary(prev){const ep=prev.epoch;SUMPREV=prev.memory;const notes=S.log.filter(l=>l.e===ep&&(l.kind==='bad'||/^Испытание/.test(l.t))).map(l=>l.t);const inc=S.lastIncome||{light:0,know:0,memory:0};
   modal(`${sumBanner((S.civ.days?`Итоги дня ${ep}`:`Итоги эпохи ${ep}`),false,'командная игра')}<div class="bd">
     ${sumTiles(inc,S.memory-prev.memory)}
-    ${notes.length?`<div class="notes">${notes.map(n=>`<div>${n}</div>`).join('')}</div>`:'<p>Эпоха прошла спокойно.</p>'}<p>У каждого героя снова ${S.team[Object.keys(S.team)[0]].apMax} действия.</p>
+    ${notes.length?`<div class="notes">${notes.map(n=>`<div${noteCls(n)}>${n}</div>`).join('')}</div>`:'<p>Эпоха прошла спокойно.</p>'}${curatorLine({memory:SUMPREV})}${trialIntro()}<p>У каждого героя снова ${S.team[Object.keys(S.team)[0]].apMax} действия.</p>
     <button class="btn gold" id="mNext">Дальше</button></div>`,()=>{$('#mNext').onclick=()=>{closeModal();after();};},'sum');}
 function teamBar(){if(!S||!S.coop)return '';return `<div class="team">${Object.keys(S.team).map(id=>{const t=S.team[id],H=E.HEROES.find(h=>h.id===id),mine=id===NET.me,ap=mine?S.ap:t.ap;
   return `<div class="tmb${mine?' me':''}${t.pid?'':' empty'}"><img alt="" src="${ART[H.art]}"><span><b>${H.name.split(' ').slice(-1)[0]}${mine?' · вы':''}</b><small>${t.pid?esc(t.name)||'игрок':'свободно'} · «${S.regions[mine?S.heroAt:t.at].name}»</small></span><i>${'●'.repeat(Math.max(0,ap))}${'○'.repeat(Math.max(0,t.apMax-ap))}</i>${t.ready?'<em title="Готов завершить эпоху">✓</em>':''}</div>`;}).join('')}</div>`;}
@@ -1533,7 +1560,7 @@ function openCoop(){const max=Math.min(17,prog.open);
     $('#cClose').onclick=closeModal;},'coop');}
 async function createRoom(lvl,teamKey){const ids=(E.TEAMS[teamKey]||E.TEAMS.a).ids;const legacy=Object.keys(prog.stars).filter(k=>prog.stars[k]>0&&+k<lvl).length;
   for(let i=0;i<5;i++){const code=Array.from({length:5},()=>'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random()*32)]).join('');
-    const st=E.applyDiff(E.newTeamGame(lvl,legacy,(Date.now()^(lvl*2654435761))>>>0,ids),diffKey());st.teamKey=teamKey;st.lobby=1;st.host=PID;st.room=code;
+    const st=E.applyDiff(E.newTeamGame(lvl,legacy,(Date.now()^(lvl*2654435761))>>>0,ids),diffKey());applyRelics(st);st.teamKey=teamKey;st.lobby=1;st.host=PID;st.room=code;
     const first=ids[0];st.team[first].pid=PID;st.team[first].name=MYNAME;
     try{const ok=await rpc('sny_create_room',{p_code:code,p_state:JSON.parse(E.serialize(st))});if(ok){NET.on=true;NET.code=code;NET.ver=1;NET.me=first;rememberRoom(code);showLobby(st);return;}}catch(e){toast('Нет связи с сервером');return;}}
   toast('Не удалось создать комнату');}
@@ -1624,6 +1651,49 @@ function sumBanner(title,struck,sub){const af=E.avgFear(S);const dark=struck||af
   return `<div class="sban${dark?' dark':''}"><img alt="" src="${ART[k]}" style="filter:${!dark&&S.civ.k!=='human'?CIVTINT[S.civ.n-1]||'none':'none'}"><div><div class="eyebrow">${S.civ.name}${sub?' · '+sub:''}</div><h3>${title}</h3>${struck?'<p>«Мы — дети зеркал…» Тьма сомкнулась.</p>':dark?'<p>Страх густеет. Куратор смотрит внимательнее.</p>':''}</div></div>`;}
 function sumTiles(inc,dm){const t=(img,pos,v,l,c)=>`<div class="stile"><span style="background-image:url(${ART[img]});background-position:${pos}"></span><b style="color:${c}">${v}</b><small>${l}</small></div>`;
   return `<div class="stiles">${t('gipnos','35% 45%','+'+inc.light,'Свет','var(--gold)')}${t('law3','70% 50%','+'+inc.know,'Знание','var(--cyan)')}${t('law4','30% 40%',(dm>=0?'+':'')+dm,'Память','var(--gold)')}</div>`;}
+/* ===== hooks: trials, echoes, resonances, Curator's voice, relics ===== */
+function hookChips(){if(!S)return '';let h='';
+  if(S.trial){const left=S.trial.until-S.epoch+1;const r=S.regions[S.trial.r];const ok=E.TRIALS[S.trial.k].ok(S,r);
+    h+=`<button class="chip trialchip${ok?' ok':''}" id="trialChip"><img alt="" src="${ART.curator}"><span><b>Испытание «${S.trial.t}»</b> ${S.trial.d} · ${left>1?`эпох: ${left}`:'последняя эпоха'}${ok?' · <em>условие выполнено</em>':''}</span></button>`;}
+  for(const x of (S.echo||[])){const Q=E.ECHOES[x.id];const left=x.at-S.epoch+1;h+=`<span class="chip echochip" title="Последствие вашего решения">⏳ ${Q.hint} · ${left>1?`через ${left} эпохи`:'в конце этой эпохи'}</span>`;}
+  return h;}
+function noteCls(n){return /^Эхо решения|^Испытание Куратора .* пройдено/.test(n)?(n.includes('провалено')?'':' class="nh"'):'';}
+const ECHOOPT={prophet:[1,1],lovers:[1,0],myths:[1,1],famine:[0,1],war:[1,1]};
+function echoTag(e,i){return ECHOOPT[e.id]&&ECHOOPT[e.id][i]?' · <span class="echot">⏳ у решения будет эхо</span>':'';}
+/* resonances: discovered combos */
+function checkRes(){if(!S||!S.found)return;prog.res=prog.res||{};const fresh=Object.keys(S.found).filter(k=>!prog.res[k]);if(!fresh.length)return;
+  for(const k of fresh)prog.res[k]=1;save();const R0=E.RES[fresh[0]];hap('success');
+  setTimeout(()=>toast(`✦ Открыт резонанс «${R0.t}»: ${R0.d}`,5000),2600);}
+function resHint(a,r){if(!r)return '';const pr=prog.res||{};const show=(k,cond)=>cond?(pr[k]?` <span class="resh">✦ ${E.RES[k].t}</span>`:' <span class="resh unk">✦ ? здесь что-то откликнется</span>'):'';
+  if(a.id==='dream')return show('temple_dream',r.b.temple)+show('hero_dream',r.id===S.heroAt);
+  if(a.id==='comfort')return show('lab_comfort',r.b.lab);if(a.id==='gipnos')return show('mirror_gipnos',r.b.mirror);return '';}
+/* the Curator's voice */
+let SUMPREV=0;
+function curatorLine(prev){const af=Math.round(E.avgFear(S)),dm=S.memory-prev.memory,g=S.goal,m=S.memory,R=S.trialRes;
+  const L=[];if(R)L.push(R.ok?'«Ты справился. Запомню. Но следующее испытание будет тяжелее».':'«Я предупреждал. Баланс требует платы».');
+  if(af>=60)L.push('«Ещё немного страха — и мне придётся начать заново. Я начинал уже шестнадцать раз».');
+  if(S.hunger>=75)L.push('«Тьма почти сыта. Ты слышишь, как она дышит?»');
+  if(S.stats.gipnos>=3)L.push('«Ты черпаешь энергию из кошмаров. Совсем как они в прошлый раз».');
+  if(m>=g*.75&&!S.over)L.push(`«Память почти собрана: ${m} из ${g}. Любопытно… Ни одна цивилизация не доходила сюда так быстро».`);
+  if(dm>=8)L.push('«Столько памяти за одну эпоху. Ты начинаешь мне нравиться — это опасно для нас обоих».');
+  if(af<25)L.push('«Тишина. Слишком тихо. Мне это не нравится».');
+  if(S.lost>=20)L.push('«Души уходят в пустоту. Ты мог их сохранить».');
+  if(!L.length)L.push(['«Я наблюдаю».','«Продолжай. Мне интересно, чем это кончится».','«Каждый ваш выбор записан».','«Страх — плата за развитие. А я — баланс».'][S.epoch%4]);
+  return `<div class="curline"><img alt="" src="${ART.curator}"><p>${L[0]}<small>Куратор</small></p></div>`;}
+function trialIntro(){if(!S.trial||S.trial.shown)return '';S.trial.shown=1;const T=S.trial;
+  return `<div class="trialnew"><img alt="" src="${ART.curator}"><div><div class="eyebrow">Куратор бросает вызов</div><b>Испытание «${T.t}»</b><p>${T.d} до конца эпохи ${T.until}.</p><p class="tw">Награда: ${T.win}. Провал: ${T.lose}.</p></div></div>`;}
+/* relics: meta progression across cycles */
+const RELICK=[['light',1,'Свет +1'],['know',1,'Знание +1'],['memory',2,'Память +2'],['hunger',-4,'голод Тьмы −4']];
+const RELN=['Чешуя','Перо','Табличка','Скипетр','Свиток','Кинжал','Песочные часы','Шестерня','Раковина','Осколок','Флакон','Маска','Микросхема','Корона','Зеркальце','Кристалл льда','Хронометр'];
+function relicOf(n){const k=RELICK[(n-1)%4];return {n,name:`${RELN[n-1]} цивилизации «${E.CIVS[n-1].name}»`,key:k[0],v:k[1],txt:k[2]};}
+function relicBonus(){const out={light:0,know:0,memory:0,hunger:0};for(const n in (prog.relics||{}))if(prog.relics[n]){const r=relicOf(+n);out[r.key]+=r.v;}
+  out.light=Math.min(out.light,5);out.know=Math.min(out.know,5);out.memory=Math.min(out.memory,8);out.hunger=Math.max(out.hunger,-16);return out;}
+function applyRelics(st){const b=relicBonus();st.light+=b.light;st.know+=b.know;st.memory+=b.memory;st.hunger=Math.max(0,st.hunger+b.hunger);return b;}
+function relicTxt(b){const p=[];if(b.light)p.push(`Свет +${b.light}`);if(b.know)p.push(`Знание +${b.know}`);if(b.memory)p.push(`Память +${b.memory}`);if(b.hunger)p.push(`голод Тьмы ${b.hunger}`);return p.join(', ');}
+function relicShelf(){const got=Object.keys(prog.relics||{}).filter(k=>prog.relics[k]).map(Number).sort((a,b)=>a-b);
+  return `<div class="relics"><div class="eyebrow">Реликвии прошлых циклов · ${got.length} из 17</div><div class="rshelf">${E.CIVS.map((c,i)=>{const n=i+1,have=got.includes(n);const R=relicOf(n);
+    return `<span class="rel${have?' on':''}" title="${have?R.name+': '+R.txt+' в начале каждого цикла':'Пройдите цикл '+n+' на две звезды'}"><img alt="" src="${ART[CIVART[i]]}" style="filter:${have?(CIVTINT[i]||'none'):'grayscale(1) brightness(.35)'}"></span>`;}).join('')}</div>
+    <p class="rtxt">${got.length?'Каждый новый цикл начинается с бонусом: '+relicTxt(relicBonus())+'.':'Пройдите цикл на две звезды или больше, чтобы получить его реликвию. Каждая даёт небольшой бонус всем следующим циклам.'}</p></div>`;}
 %%MANSION%%
 $('#btnMansion').onclick=()=>MANSION.open();
 renderTimeline();show('title');
