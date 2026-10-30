@@ -351,26 +351,24 @@ body.m3on{overflow:hidden}
   #scrTitle.wrap{max-width:1180px}
   #scrTitle .hero{max-height:58vh;aspect-ratio:auto;height:52vh}
   .timeline{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:10px}
-  #scrGame.wrap{max-width:none;height:100vh;height:100dvh;box-sizing:border-box;padding:14px 22px;overflow:hidden;
-    display:grid;grid-template-columns:clamp(300px,24vw,380px) minmax(0,1fr) clamp(380px,30vw,500px);
-    grid-template-rows:auto auto auto auto auto auto minmax(0,1fr) auto;column-gap:22px;row-gap:0}
-  #scrGame .gtop{grid-column:1/-1;grid-row:1;grid-template-columns:auto minmax(0,1fr) auto auto auto auto;margin-bottom:6px}
-  #scrGame .gtop .phase{grid-column:3;grid-row:1;margin:0;padding:5px 12px;font-size:11px}
+  #scrGame.wrap{max-width:none;box-sizing:border-box;padding:16px 28px 0;display:grid;grid-template-columns:minmax(0,44%) minmax(0,1fr);column-gap:30px;align-items:start}
+  #scrGame>*{grid-column:2}
+  #scrGame .gtop{grid-column:1/-1;grid-template-columns:auto minmax(0,1fr) auto auto auto auto;margin-bottom:8px}
+  #scrGame .gtop .phase{grid-column:3;grid-row:1;margin:0;padding:6px 16px}
   #scrGame .gtop #btnBack{grid-row:1}#scrGame .gtop #btnCodex2{grid-column:4;grid-row:1}#scrGame .gtop #btnHelp2{grid-column:5;grid-row:1}
   #scrGame .gtop #btnFull{display:grid;grid-column:6;grid-row:1}
-  #scrGame .gtitle h2{font-size:28px}
-  #gHero{grid-column:1;grid-row:2}#gFlaw{grid-column:1;grid-row:3}#scrGame .res{grid-column:1;grid-row:4}
-  #scrGame .bars{grid-column:1;grid-row:5}#gSpecial{grid-column:1;grid-row:6}
-  #log{grid-column:1;grid-row:7/9;overflow:auto;align-content:start;margin-top:12px;padding-right:4px}
-  #scrGame .mapbox{grid-column:2;grid-row:2/9;margin:0;display:flex;flex-direction:column;justify-content:center;min-height:0}
-  #globe{max-width:min(100%,calc(100dvh - 190px),760px)}
-  #panel{grid-column:3;grid-row:2/8;overflow:auto;margin-top:0;min-height:0;overscroll-behavior:contain}
-  #btnEnd{grid-column:3;grid-row:8;position:static;margin-top:10px}
+  #scrGame .mapbox{grid-column:1;grid-row:2/span 30;position:sticky;top:12px;margin:0}
+  #globe{max-width:min(100%,calc(100dvh - 240px))}
+  #btnEnd{position:sticky;bottom:12px;z-index:3}
+  #log{margin-bottom:24px}
+  #scrGame .mapbox{max-height:calc(100dvh - 24px);overflow:auto;scrollbar-width:thin}
+  #scrGame .ghint{display:none}
+  #panel{scroll-margin-top:12px}
   .acts{grid-template-columns:1fr 1fr!important}
   .card{max-width:560px}
   .toast{font-size:14px}
 }
-@media (min-width:1600px){#scrGame.wrap{grid-template-columns:400px minmax(0,1fr) 540px}.res b{font-size:24px}}
+
 
 /* ===== animated Curator next to the intro text ===== */
 .curator{margin:4px 0 2px;position:relative}
@@ -400,6 +398,135 @@ body.m3on{overflow:hidden}
   #scrTitle .intro>*{grid-column:1}
   #scrTitle .intro .curator{grid-column:2;grid-row:1/6;margin:0;align-self:center}
   #scrTitle .intro .mansionbtn{grid-column:1/-1}
+}
+
+/* ===== desktop: small text ×2.5 (generated) ===== */
+@media (min-width:1100px) and (min-height:600px){
+body{font-size:35px}
+body{font-size:35px!important}
+.eyebrow{font-size:27.5px!important}
+.hero .cap p{font-size:36px!important}
+.intro h1{font-size:54.4px!important}
+.intro h1 span{font-size:36px!important}
+.civ .t b{font-size:36px!important}
+.civ .t small{font-size:30px!important}
+.civ .t i{font-size:30px!important}
+.civ .st{font-size:35px!important}
+.civ .lk{font-size:30px!important}
+.quote{font-size:36px!important}
+.quote small{font-size:27.5px!important}
+.icon{font-size:36px!important}
+.gtitle h2{font-size:36px!important}
+.gtitle .eyebrow{font-size:25px!important}
+.phase{font-size:27.5px!important}
+.flaw span{font-size:30px!important}
+.res small{font-size:25px!important}
+.res b{font-size:38.4px!important}
+.bar .h{font-size:30px!important}
+.chip{font-size:30px!important}
+.ghint{font-size:27.5px!important}
+.rc{font-size:30px!important}
+#map text{font-size:27.5px!important}
+.legend{font-size:27.5px!important}
+.ph h3{font-size:36px!important}
+.act b{font-size:35px!important}
+.act .c{font-size:30px!important}
+.act small{font-size:28.75px!important}
+.hint{font-size:32.5px!important}
+.endbtn{font-size:36px!important}
+.log div{font-size:30px!important}
+.card h3{font-size:41.6px!important}
+.card .q{font-size:36px!important}
+.lawnum{font-size:73.6px!important}
+.unlock{font-size:32.5px!important}
+.sum b{font-size:36px!important}
+.sum small{font-size:25px!important}
+.notes{font-size:32.5px!important}
+.stars{font-size:44.8px!important}
+.codex .lw b{font-size:36px!important}
+.codex .lw small{font-size:30px!important}
+.toast{font-size:35px!important}
+.cz .bg{font-size:22.5px!important}
+.maphint{font-size:30px!important}
+.splash .sub{font-size:32.5px!important}
+.splash .q{font-size:36px!important}
+.herochip b{font-size:36px!important}
+.herochip small{font-size:30px!important}
+.herochip .rdy{font-size:27.5px!important}
+.ht span{font-size:27.5px!important}
+.hdet h4{font-size:38.4px!important}
+.hdet .ab small{font-size:25px!important}
+.hdet .ab p{font-size:32.5px!important}
+.guide h4{font-size:36px!important}
+.guide h4 em{font-size:30px!important}
+.guide p,.guide li{font-size:33.75px!important}
+.kb{font-size:31.25px!important}
+.lore .lnum{font-size:54.4px!important}
+.lore h4{font-size:36px!important}
+.lore p{font-size:33.75px!important}
+.lore .q{font-size:36px!important}
+.lore .lk{font-size:30px!important}
+.lli{font-size:33.75px!important}
+.lchron li{font-size:33.75px!important}
+.lchron b{font-size:30px!important}
+.civep{font-size:36px!important}
+.civtr{font-size:36px!important}
+.mansionbtn small{font-size:25px!important}
+.mansionbtn b{font-size:36px!important}
+.mansionbtn i{font-size:30px!important}
+.m3loc small{font-size:25px!important}
+.m3loc b{font-size:36px!important}
+.m3stat{font-size:30px!important}
+.m3stat small{font-size:27.5px!important}
+.m3hint{font-size:35px!important}
+.m3whisper{font-size:36px!important}
+.m3act{font-size:36px!important}
+.m3help{font-size:30px!important}
+.gtoc button{font-size:30px!important}
+.here small{font-size:30px!important}
+.stats .bar .h{font-size:36px!important}
+.stats .bar .h b{font-size:57.6px!important}
+.choice .tm{font-size:32.5px!important}
+.choice .tm b{font-size:36px!important}
+.drow .dh{font-size:32.5px!important}
+.drow .dh b{font-size:36px!important}
+.drow .dh small{font-size:30px!important}
+.site .drow .dh{font-size:30px!important}
+.site .drow .dh b{font-size:32.5px!important}
+.site b{font-size:35px!important}
+.site .st{font-size:30px!important}
+.site .tm{font-size:30px!important}
+.site .tm b{font-size:36px!important}
+.site .rush{font-size:30px!important}
+.rc .hammer{font-size:27.5px!important}
+.gtop .phase{font-size:25px!important}
+#scrGame .gtop .phase{font-size:27.5px!important}
+#scrGame .gtitle h2{font-size:44.8px!important}
+.curator figcaption{font-size:36px!important}
+.curator figcaption small{font-size:27.5px!important}
+[style*="font-size:12px"]{font-size:30px!important}
+[style*="font-size:13px"]{font-size:32.5px!important}
+[style*="font-size:15px"]{font-size:36px!important}
+[style*="font-size:16px"]{font-size:36px!important}
+[style*="font-size:17px"]{font-size:36px!important}
+[style*="font-size:18px"]{font-size:36px!important}
+#scrTitle.wrap{max-width:1500px}
+.acts{grid-template-columns:1fr!important}
+.res{grid-template-columns:repeat(4,1fr)!important}
+.gtop .icon{width:64px;height:64px;font-size:30px!important;border-radius:14px}
+.card{max-width:860px!important}
+.site{grid-template-columns:260px 1fr!important}
+.herochip small{white-space:normal}
+.herochip{grid-template-columns:96px 1fr auto}.herochip img{width:96px;height:96px}
+.rchips{gap:10px}
+#globe{max-width:min(100%,calc(100dvh - 330px))!important}
+.site .track,.ctrack{height:14px}.dtrack{height:18px}
+.stats .track{height:30px}
+.rc i{width:16px;height:16px}
+.rc{padding:8px 14px}.chip{padding:8px 14px}
+.pips i{width:22px!important;height:22px!important}
+#globe{max-width:min(100%,calc(100dvh - 330px),760px)!important}
+.timeline{grid-template-columns:repeat(auto-fill,minmax(460px,1fr))!important}
 }
 </style>
 <style>html,body{margin:0;-webkit-tap-highlight-color:transparent}</style>
@@ -1315,13 +1442,13 @@ const GLOBE=(()=>{
       for(const j of hr.nb){const q=project(...at(S.regions[j]));if(q.z<.08)continue;const free=S.freeMove>0;ctx.strokeStyle=free?'rgba(232,194,122,.75)':'rgba(232,194,122,.35)';
         ctx.beginPath();ctx.moveTo(hp.x,hp.y);const mx=(hp.x+q.x)/2,my=(hp.y+q.y)/2-Math.hypot(q.x-hp.x,q.y-hp.y)*.18;ctx.quadraticCurveTo(mx,my,q.x,q.y);ctx.stroke();}
       ctx.restore();}
-    const boxes=[],lab={};ctx.font='600 11px Onest,system-ui,sans-serif';
+    const GK=innerWidth>=1100&&innerHeight>=600?2.2:1;const boxes=[],lab={};ctx.font=`600 ${11*GK}px Onest,system-ui,sans-serif`;
     if(hp&&hp.z>.08)boxes.push({x:hp.x+4,y:hp.y-38,w:32,h:32});
     for(const it of [...list].sort((a,b)=>(b.r.id===sel)-(a.r.id===sel)||b.p.z-a.p.z)){const {r,p}=it;if(p.z<.3&&r.id!==sel)continue;
-      const name=human?SHORT[r.id]:r.name,w=ctx.measureText(name).width+6,m=(r.id===sel?14:12)*(.75+.25*p.z);
-      for(const dy of [m+13,-(m+22),m+26]){const bx={x:p.x-w/2,y:p.y+dy-7,w,h:14};if(bx.x<2||bx.x+bx.w>size-2)continue;
+      const name=human?SHORT[r.id]:r.name,w=ctx.measureText(name).width+6,m=(r.id===sel?14:12)*(.75+.25*p.z)*(GK>1?1.7:1);
+      for(const dy of [m+13*GK,-(m+22*GK),m+26*GK]){const bx={x:p.x-w/2,y:p.y+dy-7*GK,w,h:14*GK};if(bx.x<2||bx.x+bx.w>size-2)continue;
         if(!boxes.some(o=>bx.x<o.x+o.w&&o.x<bx.x+bx.w&&bx.y<o.y+o.h&&o.y<bx.y+bx.h)&&!list.some(o=>o.p.z>.08&&Math.abs(o.p.x-p.x)<12&&Math.abs(o.p.y-(p.y+dy))<12&&o.r.id!==r.id)){boxes.push(bx);lab[r.id]={name,y:p.y+dy};break;}}}
-    for(const {r,p,real} of list){if(p.z<.08)continue;const a=Math.min(1,(p.z-.08)/.25),isSel=r.id===sel,m=(isSel?14:12)*(.75+.25*p.z);
+    for(const {r,p,real} of list){if(p.z<.08)continue;const a=Math.min(1,(p.z-.08)/.25),isSel=r.id===sel,m=(isSel?14:12)*(.75+.25*p.z)*(GK>1?1.7:1);
       ctx.globalAlpha=a;
       if(real&&real.z>0){ctx.strokeStyle='rgba(236,230,216,.6)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(real.x,real.y);ctx.stroke();ctx.fillStyle='#ece6d8';ctx.beginPath();ctx.arc(real.x,real.y,2,0,Math.PI*2);ctx.fill();}
       const c=regCol(r,false).map(v=>Math.round(Math.min(255,v*1.15)));
@@ -1330,10 +1457,10 @@ const GLOBE=(()=>{
       if(r.pt){ctx.moveTo(p.x,p.y-m);ctx.lineTo(p.x+m,p.y);ctx.lineTo(p.x,p.y+m);ctx.lineTo(p.x-m,p.y);ctx.closePath();}else ctx.arc(p.x,p.y,m,0,Math.PI*2);
       ctx.fill();ctx.stroke();
       ctx.strokeStyle='rgba(207,232,255,.85)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(p.x,p.y,m+4,-Math.PI/2,-Math.PI/2+2*Math.PI*r.pop/100);ctx.stroke();
-      ctx.font='700 11px Onest,system-ui,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#14080c';ctx.fillText(r.fear,p.x,p.y+.5);
+      ctx.font=`700 ${11*GK}px Onest,system-ui,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#14080c';ctx.fillText(r.fear,p.x,p.y+.5);
       const ic={temple:['▲','#e8c27a'],lab:['◆','#6fd3ff'],mirror:['◐','#cfe8ff'],core:['■','#9b7dff']};let bx=p.x-((Object.keys(r.b).length-1)*7);
-      ctx.font='11px system-ui,sans-serif';for(const b in r.b){ctx.fillStyle=ic[b][1];ctx.strokeStyle='#060914';ctx.lineWidth=3;ctx.strokeText(ic[b][0],bx,p.y-m-9);ctx.fillText(ic[b][0],bx,p.y-m-9);bx+=14;}
-      const L=lab[r.id];if(L){ctx.font=`${isSel?'700':'600'} 11px Onest,system-ui,sans-serif`;ctx.lineWidth=3.5;ctx.strokeStyle='rgba(6,9,20,.92)';ctx.strokeText(L.name,p.x,L.y);ctx.fillStyle=isSel?'#fff':'#ece6d8';ctx.fillText(L.name,p.x,L.y);}
+      ctx.font=`${11*GK}px system-ui,sans-serif`;for(const b in r.b){ctx.fillStyle=ic[b][1];ctx.strokeStyle='#060914';ctx.lineWidth=3;ctx.strokeText(ic[b][0],bx,p.y-m-9);ctx.fillText(ic[b][0],bx,p.y-m-9);bx+=14;}
+      const L=lab[r.id];if(L){ctx.font=`${isSel?'700':'600'} ${11*GK}px Onest,system-ui,sans-serif`;ctx.lineWidth=3.5;ctx.strokeStyle='rgba(6,9,20,.92)';ctx.strokeText(L.name,p.x,L.y);ctx.fillStyle=isSel?'#fff':'#ece6d8';ctx.fillText(L.name,p.x,L.y);}
       ctx.globalAlpha=1;marks.push({id:r.id,x:p.x,y:p.y,m:m+6});}
     // hero figure
     heroHit=null;
@@ -1497,7 +1624,7 @@ function tryMove(id){
   if(!res.ok){toast(res.msg||'Нельзя перейти');return;}
   GLOBE.heroMove(res.from);sel=id;render();GLOBE.focus(id);toast(`${E.heroOf(S).name} теперь в регионе «${S.regions[id].name}»`);after();
 }
-function selectRegion(id,fromGlobe){sel=id;render();GLOBE.focus(id);if(innerWidth<1100)$('#panel').scrollIntoView({block:'nearest',behavior:'smooth'});else $('#panel').scrollTop=0;}
+function selectRegion(id,fromGlobe){sel=id;render();GLOBE.focus(id);if(innerWidth<1100)$('#panel').scrollIntoView({block:'nearest',behavior:'smooth'});else $('#panel').scrollIntoView({block:'start',behavior:'smooth'});}
 function renderMap(){
   if(!globeOn){GLOBE.mount($('#globe'),id=>selectRegion(id,true),id=>tryMove(id));globeOn=true;}
   GLOBE.update();
