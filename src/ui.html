@@ -433,6 +433,24 @@ body.m3on{overflow:hidden}
 .tpi{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:4px;font-size:12px;color:var(--dim)}
 .tpi span{display:inline-flex;align-items:center;gap:5px}.tpi img{width:24px;height:24px;border-radius:6px;object-fit:cover;object-position:center 25%}
 @media (min-width:1100px) and (min-height:600px){.tpi{font-size:28px!important}.tpi img{width:52px;height:52px}.tpick b{font-size:34px}}
+
+/* ===== five improvements ===== */
+.diffs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.dbtn{display:grid;gap:2px;text-align:left;padding:8px 10px;border-radius:12px;background:var(--panel);border:1px solid var(--rule);color:var(--ink)}
+.dbtn b{font-size:14px}.dbtn small{font-size:11px;color:var(--dim);line-height:1.3}
+.dbtn.on{border-color:var(--gold);background:linear-gradient(180deg,#e8c27a22,transparent)}
+.dbtn[data-diff=nightmare].on{border-color:var(--fear);background:linear-gradient(180deg,#e5435a26,transparent)}
+.chip.fc{color:var(--ink)}.chip.fc.warn{border-color:#c98a2e;color:#ffd08a}.chip.fc.bad{border-color:var(--fear);color:#ffb3bd;animation:fcp 1.6s ease-in-out infinite}
+@keyframes fcp{50%{box-shadow:0 0 0 3px #e5435a44}}
+.fcr{font-size:12.5px;color:var(--dim);margin:6px 0 2px;padding:6px 9px;border-radius:10px;background:var(--panel-2)}
+.fcr.up b{color:var(--fear)}.fcr.down b{color:var(--good)}.fcr.tired{color:#ffd08a}
+.rc .pd{font-style:normal;font-size:11px;font-weight:700}.rc .pd.up{color:var(--fear)}.rc .pd.down{color:var(--good)}
+.fx{position:absolute;transform:translate(-50%,-50%);pointer-events:none;font-weight:800;font-size:15px;white-space:nowrap;text-shadow:0 2px 6px #000,0 0 2px #000;animation:fxup 2.1s ease-out forwards;z-index:4;opacity:0}
+.fx.good{color:#9ff0c0}.fx.bad{color:#ff8d9d}
+@keyframes fxup{0%{opacity:0;transform:translate(-50%,-30%) scale(.7)}15%{opacity:1;transform:translate(-50%,-60%) scale(1.15)}100%{opacity:0;transform:translate(-50%,-260%) scale(1)}}
+@media (max-width:520px){.diffs{grid-template-columns:1fr}.dbtn{grid-template-columns:auto 1fr;gap:8px;align-items:baseline}}
+@media (min-width:1100px) and (min-height:600px){.dbtn b{font-size:34px!important}.dbtn small{font-size:27px!important}.fcr{font-size:30px!important}.rc .pd{font-size:26px!important}.fx{font-size:34px}}
+@media (prefers-reduced-motion:reduce){.fx{animation:none;opacity:1}.chip.fc.bad{animation:none}}
 /* ===== desktop: small text ×2.5 (generated) ===== */
 @media (min-width:1100px) and (min-height:600px){
 body{font-size:35px}
@@ -577,6 +595,7 @@ body{font-size:35px!important}
       <figcaption>«Страх — плата за развитие. А я — баланс» <small>Куратор</small></figcaption>
     </figure>
     <div class="row"><button class="btn gold" id="btnStart">Начать</button><button class="btn" id="btnCodex1">Вселенная романа</button><button class="btn" id="btnHelp">Как играть</button><button class="btn" id="btnFull1">⛶ Во весь экран</button></div>
+    <div class="eyebrow" style="margin-top:6px">Сложность</div><div class="diffs" id="diffRow"></div>
     <button class="coopbtn" id="btnCoop"><b>Командная игра · 3 игрока</b><small>По сети: Круглов, Северова, Воронов — или Малышев, Суханова, Светлов</small></button>
     <button class="mansionbtn" id="btnMansion"><span><small>3D · вид от первого лица</small><b>Особняк под Сосновкой</b><i>Осмотрите дом, где умер Алексей. Находки усилят 17-й цикл</i></span></button>
   </section>
@@ -672,12 +691,13 @@ function civBtn(i){const c=E.CIVS[i],n=i+1,lock=n>prog.open,st=prog.stars[n]||0,
   return `<button class="civ${lock?' locked':''}${cur?' cur':''}" data-n="${n}" ${lock?'disabled':''} aria-label="Цикл ${n}: ${c.name}">
       <img alt="" src="${ART[CIVART[i]]}" style="filter:${CIVTINT[i]||'none'}">
       <span class="t"><small>Цикл ${n} · ${c.ago}</small><b>${c.name}</b><i>${c.flaw}</i></span>
-      ${lock?'<span class="lk">закрыт</span>':`<span class="st">${st?'★'.repeat(st)+'<span style="color:var(--rule)">'+'★'.repeat(3-st)+'</span>':'играть'}</span>`}</button>`;}
+      ${lock?'<span class="lk">закрыт</span>':`<span class="st">${st?'★'.repeat(st)+'<span style="color:var(--rule)">'+'★'.repeat(3-st)+'</span>':'играть'}${(prog.nm||{})[n]?' <span title="Пройден на «Кошмаре»">☠</span>':''}</span>`}</button>`;}
 function pickRange(ns){
   modal(`<div class="bd"><div class="eyebrow">~150 000 — 5 000 лет назад</div><h3>Циклы 5–15</h3><p>От Помнящих до Воинов света. Одиннадцать попыток Куратора, о которых люди помнят только мифы.</p><div class="timeline">${ns.map(n=>civBtn(n-1)).join('')}</div><button class="btn" id="mOk">Закрыть</button></div>`,()=>{
     $('#mOk').onclick=closeModal;document.querySelectorAll('#card .civ[data-n]').forEach(b=>b.onclick=()=>{closeModal();startLevel(+b.dataset.n);});});
 }
 function renderTimeline(){
+  if($('#diffRow')){$('#diffRow').outerHTML=diffRow();bindDiff();}
   chronoMap($('#chronoMap'),!!prog.done);
   $('#mapHint').textContent=prog.done?'Все 17 циклов пройдены. Цикл разорван.':'Нажмите на колонку, чтобы открыть цикл';
   $('#timeline').innerHTML=E.CIVS.map((c,i)=>civBtn(i)).join('');
@@ -853,7 +873,7 @@ function startLevel(n){
 }
 function beginLevel(n,hero){
   const legacy=Object.keys(prog.stars).filter(k=>prog.stars[k]>0&&+k<n).length;
-  S=E.newGame(n,legacy,(Date.now()^(n*2654435761))>>>0,hero);sel=null;GLOBE.setHero(ART[E.heroOf(S).art]);GLOBE.reset(S.civ.k==='human'?[35,40]:[25,30]);
+  S=E.applyDiff(E.newGame(n,legacy,(Date.now()^(n*2654435761))>>>0,hero),diffKey());sel=null;GLOBE.setHero(ART[E.heroOf(S).art]);GLOBE.reset(S.civ.k==='human'?[35,40]:[25,30]);
   show('game');render();
   const C=S.civ,i=n-1,lawN=n<=7?E.lawsOpen(n)[n-1]:null;
   const goalTxt=C.k==='human'?`<i style="font-family:var(--display);font-size:17px;color:var(--ink)">«Страх — это не слабость. Это то, что делает нас людьми. Важно, что мы делаем со своим страхом.» — Антон Круглов</i><br><br>Продержитесь семь дней. К концу седьмого дня нужны: Память ${S.goal}, три уничтоженных спутника Куратора и средний страх ниже 50.`:`Соберите Память ${S.goal} за ${S.maxEpoch} эпох, пока страх не поглотил цивилизацию (средний страх 75 — гибель).`;
@@ -1015,7 +1035,7 @@ const GLOBE=(()=>{
       const d=drag;drag=null;if(d&&!d.moved){const b=c.getBoundingClientRect();const id=pick(e.clientX-b.left,e.clientY-b.top);if(id!=null)onPick(id);}};
     c.onpointercancel=()=>{drag=null;if(heroDrag){heroDrag=null;draw();}};
     new ResizeObserver(()=>{if(S&&c.clientWidth>10&&Math.abs(c.clientWidth-size)>1){setup();build();draw();}}).observe(c);}
-  return {mount,update(){if(!cv||!S)return;build();draw();kick();},
+  return {mount,posOf(id){const m=marks.find(o=>o.id===id);return m?{x:m.x,y:m.y}:null;},update(){if(!cv||!S)return;build();draw();kick();},
     focus(id,view){const r=S.regions[id];const at=S.civ.k==='human'&&SHIFT[id]?SHIFT[id]:[r.lat,r.lon];auto=false;tYaw=((at[1]*d2r)%(2*Math.PI)+2*Math.PI)%(2*Math.PI);tPitch=clampP(at[0]*d2r*.85);
       yaw=((yaw%(2*Math.PI))+2*Math.PI)%(2*Math.PI);kick();},
     heroScreen(){return heroHit;},marksScreen(){return marks;},
@@ -1123,13 +1143,14 @@ function render(){
   if(S.ai)sp.push(`<span class="chip v">${S.ai==='ally'?'Разум-союзник':S.ai==='hostile'?'Разум-хищник':'Онейрос: '+E.ONEIROS_STAGES[S.one].t}</span>`);
   if(C.k==='human')sp.push(`<span class="chip">Спутники Куратора <b>${'◉'.repeat(S.sats)}${'○'.repeat(3-S.sats)}</b></span>`);
   if(S.lost)sp.push(`<span class="chip">Души потеряны <b>${S.lost}</b></span>`);
-  $('#gSpecial').innerHTML=sp.join('')+siteChips();
+  forecast();if(S.diff&&S.diff!=='normal')sp.unshift(`<span class="chip ${S.diff==='nightmare'?'fc bad':''}">${S.diff==='nightmare'?'☠ ':''}${E.DIFFS[S.diff].t}</span>`);
+  $('#gSpecial').innerHTML=fcChip()+sp.join('')+siteChips();
   renderMap();renderPanel();
   $('#log').innerHTML=S.log.slice(0,6).map(l=>`<div class="${l.kind}">${C.days?'День':'Эпоха'} ${l.e}: ${l.t}</div>`).join('');
   $('#btnEnd').textContent=C.days?(S.epoch>=7?'Завершить седьмой день':'Завершить день'):(S.epoch>=S.maxEpoch?'Завершить последнюю эпоху':'Завершить эпоху');
   $('#btnEnd').disabled=!!S.over;
   $('#gTeam').innerHTML=teamBar();if(S.coop&&NET.on)coopEndBtn();
-  bindSites();saveGame();
+  bindSites();saveGame();floatFx();
 }
 let globeOn=false;
 function tryMove(id){
@@ -1142,7 +1163,7 @@ function renderMap(){
   if(!globeOn){GLOBE.mount($('#globe'),id=>selectRegion(id,true),id=>tryMove(id));globeOn=true;}
   GLOBE.update();
   $('#rchips').innerHTML=S.regions.map(r=>{const t=Math.max(0,Math.min(1,(r.fear-r.love)/60+.5));const c=mix([232,194,122],[229,67,90],t);
-    return `<button class="rc${sel===r.id?' on':''}" data-r="${r.id}" aria-pressed="${sel===r.id}"><i style="background:rgb(${c})"></i><span>${r.name}${r.site||r.rite?'<span class="hammer">'+(r.site?'⚒':'✧')+'</span>':''}</span><b style="color:${r.fear>=60?'var(--fear)':'var(--ink)'}">${r.fear}</b></button>`;}).join('');
+    return `<button class="rc${sel===r.id?' on':''}" data-r="${r.id}" aria-pressed="${sel===r.id}"><i style="background:rgb(${c})"></i><span>${r.name}${r.site||r.rite?'<span class="hammer">'+(r.site?'⚒':'✧')+'</span>':''}</span>${FC&&FC.fear[r.id]!==r.fear?`<em class="pd ${FC.fear[r.id]>r.fear?'up':'down'}">${FC.fear[r.id]>r.fear?'▲':'▼'}${Math.abs(FC.fear[r.id]-r.fear)}</em>`:''}<b style="color:${r.fear>=60?'var(--fear)':'var(--ink)'}">${r.fear}</b></button>`;}).join('');
   document.querySelectorAll('#rchips .rc').forEach(b=>b.onclick=()=>selectRegion(+b.dataset.r));
 }
 function bIcons(r,x,y,rad){const ic={temple:['▲','#e8c27a'],lab:['◆','#6fd3ff'],mirror:['◐','#cfe8ff'],core:['■','#9b7dff']};let k=0,o='';
@@ -1166,6 +1187,7 @@ function renderPanel(){
      <div class="stats"><div class="bar fearbar"><div class="h"><span>Страх</span><b class="num">${r.fear}</b></div><div class="track"><i style="width:${r.fear}%"></i></div></div>
      <div class="bar mem"><div class="h"><span>Любовь</span><b class="num">${r.love}</b></div><div class="track"><i style="width:${r.love}%"></i></div></div></div>
      <div class="blds"><span class="chip">Население <b>${r.pop}</b></span>${Object.keys(r.b).map(b=>`<span class="chip">${BN[b]}</span>`).join('')}${r.fear>=90?'<span class="chip" style="color:var(--fear)">Кошмар</span>':''}</div>
+     ${fcRegion(r)}${r.tired?`<div class="fcr tired">Регион устал (${r.tired}): Утешение и Сон памяти здесь работают на ${Math.round(100/(1+.35*r.tired))}% до следующей эпохи</div>`:''}
      ${siteCard(r)}
      ${moveBlock(r)}
      <div class="acts">${as.map(a=>actBtn(a)).join('')}</div>`;}
@@ -1189,6 +1211,7 @@ function renderPanel(){
 $('#btnEnd').onclick=()=>{
   if(!S||S.over)return;if(S.event){showEvent();return;}
   if(S.coop&&NET.on){coopReady();return;}
+  if(S.ap>0&&!prog.noAsk&&!$('#btnEnd').dataset.ok){confirmEnd(()=>{$('#btnEnd').dataset.ok='1';$('#btnEnd').click();delete $('#btnEnd').dataset.ok;});return;}
   const ep=S.epoch,memBefore=S.memory;E.endEpoch(S);
   const notes=S.log.filter(l=>l.e===ep&&l.kind==='bad').map(l=>l.t);
   render();
@@ -1219,6 +1242,7 @@ function showEvent(){
 }
 function showResult(){
   const C=S.civ,n=C.n,win=S.over.win,st=E.stars(S);
+  if(win&&S.diff==='nightmare'){prog.nm=prog.nm||{};prog.nm[n]=1;}
   if(win){prog.stars[n]=Math.max(prog.stars[n]||0,st);prog.open=Math.max(prog.open,Math.min(17,n+1));if(n===17)prog.done=1;save();}
   const starRow=win?`<div class="stars">${'★'.repeat(st)}<i>${'★'.repeat(3-st)}</i></div><p style="text-align:center;font-size:12px">★ цикл пройден · ★ средний страх ниже 40 · ★ потеряно мало душ</p>`:'';
   if(win&&n===17){
@@ -1475,7 +1499,7 @@ function openCoop(){const max=Math.min(17,prog.open);
     $('#cClose').onclick=closeModal;},'coop');}
 async function createRoom(lvl,teamKey){const ids=(E.TEAMS[teamKey]||E.TEAMS.a).ids;const legacy=Object.keys(prog.stars).filter(k=>prog.stars[k]>0&&+k<lvl).length;
   for(let i=0;i<5;i++){const code=Array.from({length:5},()=>'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random()*32)]).join('');
-    const st=E.newTeamGame(lvl,legacy,(Date.now()^(lvl*2654435761))>>>0,ids);st.teamKey=teamKey;st.lobby=1;st.host=PID;st.room=code;
+    const st=E.applyDiff(E.newTeamGame(lvl,legacy,(Date.now()^(lvl*2654435761))>>>0,ids),diffKey());st.teamKey=teamKey;st.lobby=1;st.host=PID;st.room=code;
     const first=ids[0];st.team[first].pid=PID;st.team[first].name=MYNAME;
     try{const ok=await rpc('sny_create_room',{p_code:code,p_state:JSON.parse(E.serialize(st))});if(ok){NET.on=true;NET.code=code;NET.ver=1;NET.me=first;rememberRoom(code);showLobby(st);return;}}catch(e){toast('Нет связи с сервером');return;}}
   toast('Не удалось создать комнату');}
@@ -1514,6 +1538,43 @@ $('#btnCoop').onclick=openCoop;
   try{const sp=TGW&&TGW.initDataUnsafe&&TGW.initDataUnsafe.start_param;if(sp&&/^room_/i.test(sp))c=sp.slice(5);}catch(e){}
   if(!c){try{c=localStorage.getItem('sny-coop');}catch(e){}if(c){setTimeout(()=>{const b=$('#btnCoop');if(b)b.textContent='Командная игра · вернуться в '+c;b.onclick=()=>{if(!MYNAME){openCoop();return;}joinRoom(c);};},50);}return;}
   c=c.toUpperCase();setTimeout(()=>{const sp=$('#splash');if(sp)sp.hidden=true;if(!MYNAME){openCoop();setTimeout(()=>{const i=$('#cCode');if(i)i.value=c;},30);}else joinRoom(c);},300);})();
+
+/* ===== 1. Difficulty ===== */
+function diffKey(){return (prog.diff&&E.DIFFS[prog.diff])?prog.diff:'normal';}
+function diffRow(){return `<div class="diffs" id="diffRow" role="radiogroup" aria-label="Сложность">${Object.entries(E.DIFFS).map(([k,D])=>`<button class="dbtn${diffKey()===k?' on':''}" data-diff="${k}" role="radio" aria-checked="${diffKey()===k}"><b>${k==='nightmare'?'☠ ':''}${D.t}</b><small>${D.d}</small></button>`).join('')}</div>`;}
+function bindDiff(root){(root||document).querySelectorAll('[data-diff]').forEach(b=>b.onclick=()=>{prog.diff=b.dataset.diff;save();document.querySelectorAll('.diffs').forEach(d=>d.outerHTML=diffRow());bindDiff();toast('Сложность: '+E.DIFFS[prog.diff].t);});}
+/* ===== 2. Forecast of the coming epoch end ===== */
+let FC=null;
+function forecast(){FC=null;if(!S||S.over||S.lobby)return null;try{const c=E.deserialize(E.serialize(S));c.event=null;delete c.pendingChoice;const hb=c.hunger;E.endEpoch(c);
+  FC={fear:c.regions.map(r=>r.fear),pop:c.regions.map(r=>r.pop),hunger:c.hunger,hb,avg:Math.round(E.avgFear(c)),lose:!!(c.over&&!c.over.win),win:!!(c.over&&c.over.win),why:c.over?c.over.why:''};}catch(e){FC=null;}return FC;}
+function fcChip(){if(!FC)return '';const a0=Math.round(E.avgFear(S));const d=FC.avg-a0;
+  const cls=FC.lose?'fc bad':FC.avg>=60||FC.hunger>=85?'fc warn':'fc';
+  return `<span class="chip ${cls}" title="Что будет, если сейчас завершить эпоху">${FC.lose?'⚠ Если завершить эпоху сейчас — гибель':FC.win?'★ В конце эпохи — победа':`Прогноз: страх ${a0}→<b>${FC.avg}</b>${d?` ${d>0?'▲':'▼'}${Math.abs(d)}`:''} · голод ${S.hunger}→<b>${FC.hunger}</b>`}</span>`;}
+function fcRegion(r){if(!FC)return '';const to=FC.fear[r.id],d=to-r.fear;const dp=FC.pop[r.id]-r.pop;
+  return `<div class="fcr ${d>0?'up':d<0?'down':''}">К концу эпохи: страх ${r.fear} → <b>${to}</b> ${d?`(${d>0?'▲ +':'▼ −'}${Math.abs(d)})`:'(без изменений)'}${to>=90?' · <b style="color:var(--fear)">кошмар: погибнут люди</b>':''}${dp<0?` · население ${dp}`:''}</div>`;}
+/* ===== 3. Safety & hotkeys ===== */
+function confirmEnd(go){if(!S||S.coop||S.ap<=0||prog.noAsk){go();return;}
+  modal(`<div class="bd"><h3>Осталось действий: ${S.ap}</h3><p>Неиспользованные действия сгорят. ${FC&&FC.lose?'<b style="color:var(--fear)">Прогноз: гибель цивилизации в конце эпохи.</b>':''}</p>
+    <label class="fld" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="mNoAsk"><span>Больше не спрашивать</span></label>
+    <div class="row"><button class="btn" id="mBack2">Вернуться</button><button class="btn gold" id="mEndGo">Завершить эпоху</button></div></div>`,()=>{
+    $('#mBack2').onclick=closeModal;$('#mEndGo').onclick=()=>{if($('#mNoAsk').checked){prog.noAsk=1;save();}closeModal();go();};},'confirm');}
+document.addEventListener('keydown',e=>{if(!S||$('#scrGame').hidden||document.getElementById('m3d')||e.ctrlKey||e.metaKey||e.altKey)return;if(/INPUT|TEXTAREA|SELECT/.test((document.activeElement||{}).tagName||''))return;
+  const ovOpen=!$('#ov').hidden;
+  if(e.key==='Escape'&&ovOpen){const b=$('#card').querySelector('#mStay,#mBack2,#mOk,#cClose');if(b)b.click();return;}
+  if(ovOpen){if(e.key==='Enter'){const b=$('#card').querySelector('.btn.gold');if(b){e.preventDefault();b.click();}}else if(/^[1-9]$/.test(e.key)){const o=$('#card').querySelectorAll('.opt:not([disabled])')[+e.key-1];if(o)o.click();}return;}
+  if(e.key==='Enter'){e.preventDefault();$('#btnEnd').click();return;}
+  if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const n=S.regions.length;selectRegion(((sel==null?-1:sel)+(e.key==='ArrowRight'?1:n-1))%n);return;}
+  if(/^[1-9]$/.test(e.key)){const b=[...document.querySelectorAll('#panel .act')][+e.key-1];if(b)b.click();}});
+/* ===== 4. Floating numbers on the globe ===== */
+let LASTV=null;
+function floatFx(){if(!S)return;const cur=S.regions.map(r=>[r.fear,r.love,r.pop]);const key=S.lvl+':'+(S.room||'');
+  if(!LASTV||LASTV.key!==key||LASTV.v.length!==cur.length){LASTV={key,v:cur};return;}
+  const box=$('.mapbox'),cv=$('#globe');if(!box||!cv||!cv.clientWidth){LASTV.v=cur;return;}
+  cur.forEach((c,i)=>{const p=LASTV.v[i];const items=[];const df=c[0]-p[0],dl=c[1]-p[1],dp=c[2]-p[2];
+    if(df)items.push([`страх ${df>0?'+':'−'}${Math.abs(df)}`,df>0?'bad':'good']);if(dl)items.push([`любовь ${dl>0?'+':'−'}${Math.abs(dl)}`,dl>0?'good':'bad']);if(dp<0)items.push([`люди ${dp}`,'bad']);
+    if(!items.length)return;const pos=GLOBE.posOf(i);if(!pos)return;
+    items.forEach((it,k)=>{const d=document.createElement('div');d.className='fx '+it[1];d.textContent=it[0];d.style.left=(cv.offsetLeft+pos.x)+'px';d.style.top=(cv.offsetTop+pos.y-10-k*20)+'px';d.style.animationDelay=(k*.12)+'s';box.appendChild(d);setTimeout(()=>d.remove(),2200);});});
+  LASTV.v=cur;}
 
 %%MANSION%%
 $('#btnMansion').onclick=()=>MANSION.open();
