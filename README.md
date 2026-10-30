@@ -6,3 +6,5 @@
 - `src/` — исходники: `engine.js` (правила), `ui.html` (интерфейс), `mansion.js` (3D-особняк), `build.py` (сборка; картинки `art.json` в репозиторий не входят).
 
 В Telegram: @BotFather → `/newapp` (или Bot Settings → Menu Button) → ссылка на развёрнутый сайт Vercel.
+
+Сайт: https://human-dream.vercel.app
