@@ -200,6 +200,22 @@ h1,h2,h3{font-family:var(--display);font-weight:600;margin:0;text-wrap:balance;l
 .lore{display:grid;gap:12px}
 .lore .le{display:grid;grid-template-columns:84px 1fr;gap:12px;align-items:start;background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:10px}
 .lore .le img{width:84px;height:84px;object-fit:cover;border-radius:8px;display:block}
+.dos{display:grid;gap:14px}
+.dos figure{margin:0;background:var(--panel);border:1px solid var(--rule);border-radius:12px;overflow:hidden}
+.dos figure img{width:100%;display:block;cursor:zoom-in;aspect-ratio:4/3;object-fit:cover}
+.dos figcaption{padding:10px 12px;display:grid;gap:4px}
+.dos figcaption b{font-family:var(--display);font-size:19px;font-weight:600}
+.dos figcaption small{font-size:13px;color:var(--dim);line-height:1.4}
+.hdos{display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:8px;cursor:zoom-in;text-align:left;color:inherit;font:inherit;width:100%}
+.hdos img{width:96px;height:72px;object-fit:cover;border-radius:8px;display:block}
+.hdos b{display:block;font-size:14px}.hdos small{font-size:12px;color:var(--dim)}
+#viewer{position:fixed;inset:0;z-index:9999;background:rgba(3,4,10,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:12px;cursor:zoom-out;animation:vfade .2s ease}
+#viewer[hidden]{display:none}
+#viewer img{max-width:100%;max-height:calc(100% - 60px);object-fit:contain;border-radius:10px;box-shadow:0 20px 60px #000}
+#viewer p{margin:0;color:#e9dcc0;font-size:14px;text-align:center}
+#viewer button{position:absolute;top:12px;right:12px;width:44px;height:44px;border-radius:50%;border:1px solid #fff3;background:#0009;color:#fff;font-size:22px;cursor:pointer}
+@keyframes vfade{from{opacity:0}to{opacity:1}}
+@media (min-width:1100px){.dos{grid-template-columns:1fr 1fr}.hdos small{font-size:30px}.hdos b{font-size:35px}.hdos{grid-template-columns:180px 1fr}.hdos img{width:180px;height:135px}.dos figcaption b{font-size:40px}.dos figcaption small{font-size:30px}#viewer p{font-size:28px}}
 .lore .le div{min-width:0;display:grid;gap:6px}
 .lore .le.off{opacity:.5}
 .lore .lnum{width:84px;height:84px;border-radius:8px;display:grid!important;place-items:center;font-family:var(--display);font-size:34px;color:var(--dim);border:1px dashed var(--rule)}
@@ -873,11 +889,24 @@ const LORE={
   ['+10 лет','Восстановление цивилизации, эпилог',1]
  ]
 };
-const LTABS=[['laws','Законы'],['world','Мир'],['prequel','Шестнадцать'],['people','Персонажи'],['places','Места'],['tech','Технологии'],['orgs','Организации'],['chron','Хроника']];
+const LTABS=[['laws','Законы'],['dossier','Досье'],['world','Мир'],['prequel','Шестнадцать'],['people','Персонажи'],['places','Места'],['tech','Технологии'],['orgs','Организации'],['chron','Хроника']];
 function loreDone(){return !!prog.stars[17];}
 const LOCK='<span class="lk">Откроется после победы в 17-м цикле</span>';
 function loreLi(li){return li?`<ul class="lli">${li.map(([a,b])=>`<li><b>${a}</b> — ${b}</li>`).join('')}</ul>`:'';}
+const DOSSIER={kruglov:'d_kruglov',malyshev:'d_malyshev',severova:'d_severova',astra:'d_astra'};
+const DOSLIST=[['d_curator','Куратор','Создавать, наблюдать, уничтожать, начинать заново. Хранитель семнадцати циклов.'],
+ ['d_kruglov','Антон Круглов','Майор полиции, следователь по делу Малышева, лидер сопротивления.'],
+ ['d_malyshev','Алексей Малышев','Создатель «Гипноса», первая жертва Онейроса.'],
+ ['d_severova','Марина Северова','Глава Федерального агентства по кибербезопасности, союзник Круглова.'],
+ ['d_astra','Астра и «Стражи»','Хакерская группа: люди, данные, свобода.'],
+ ['d_mansion','Особняк под Сосновкой','Дом, в котором время не заканчивается. Комнаты, история и круглая спальня с зеркалами Козырева.'],
+ ['ark','Платформа «Ковчег» ARK-1','Убежище выживших в открытом море. «Still here. Still human».']];
+function viewImg(k,cap){let v=document.getElementById('viewer');if(!v){v=document.createElement('div');v.id='viewer';v.setAttribute('role','dialog');v.setAttribute('aria-modal','true');document.body.appendChild(v);v.onclick=()=>{v.hidden=true;};}
+  v.innerHTML=`<button aria-label="Закрыть">×</button><img alt="${cap||''}" src="${ART[k]}">${cap?`<p>${cap}</p>`:''}`;v.hidden=false;}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-view]');if(t){e.preventDefault();e.stopPropagation();viewImg(t.dataset.view,t.dataset.cap);}},true);
+document.addEventListener('keydown',e=>{const v=document.getElementById('viewer');if(e.key==='Escape'&&v&&!v.hidden){v.hidden=true;e.stopImmediatePropagation();}},true);
 function loreTab(k){const fin=loreDone();
+  if(k==='dossier')return `<p>Досье героев и мест романа. Нажмите на картинку, чтобы рассмотреть её целиком.</p><div class="dos">${DOSLIST.map(([a,n,d])=>`<figure><img alt="${n}" src="${ART[a]}" data-view="${a}" data-cap="${n}"><figcaption><b>${n}</b><small>${d}</small></figcaption></figure>`).join('')}</div>`;
   if(k==='laws'){const open=E.lawsOpen(Math.max(1,Math.min(17,prog.open)));
     return `<p>Семь правил, по которым устроен мир романа. Каждый закон открывается в своём цикле и меняет игру.</p><div class="codex">${E.LAWS.map(L=>{const on=open.includes(L.n);
     return `<div class="lw${on?'':' off'}"><img alt="" src="${ART[LAWART[L.n-1]]}"><div><b>${L.n}. ${L.t}</b><small>${on?L.unlock:'Откроется в одном из следующих циклов'}</small></div></div>`;}).join('')}</div>`;}
@@ -916,7 +945,7 @@ function heroDetail(h,n){
   return `<div class="hdet"><div><div class="eyebrow">${h.role}${h.id==='kruglov'?' · хорош для начала':''}</div><h4>${h.name}</h4></div>
    <div class="q" style="font-size:16px">${h.quote}</div>
    <div class="ab"><small>Постоянно</small><b>${h.passive}</b><p>${h.pd}</p></div>
-   <div class="ab"><small>Умение · ${h.act.per==='epoch'?'раз в эпоху':'раз за цикл'} · без затрат</small><b>${h.act.t}</b><p>${h.act.d}</p></div>${early}</div>`;}
+   <div class="ab"><small>Умение · ${h.act.per==='epoch'?'раз в эпоху':'раз за цикл'} · без затрат</small><b>${h.act.t}</b><p>${h.act.d}</p></div>${early}${DOSSIER[h.id]?`<button class="hdos" data-view="${DOSSIER[h.id]}" data-cap="${h.name} · досье"><img alt="" src="${ART[DOSSIER[h.id]]}"><span><b>Досье героя</b><small>Биография, характер и арка персонажа</small></span></button>`:''}</div>`;}
 function startLevel(n){
   let pick=E.HEROES.find(h=>h.id===prog.hero)||E.HEROES[0];
   const draw=()=>{$('#card').innerHTML=`<div class="bd"><div class="eyebrow">Цикл ${n} · ${E.CIVS[n-1].name}</div><h3>Выберите героя</h3>
@@ -1421,7 +1450,7 @@ function finishBuilds(done,pre){
   if(!$('#ov').hidden||S.event){toast(`${pre?pre+' ':''}${title}: «${r.name}». ${what}`,4200);return;}
   modal(`<div class="bd"><div class="eyebrow">${S.civ.name} · ${r.name}</div><h3>${title}</h3><div class="site ${d.t==='lab'?'lab':''}" style="grid-template-columns:1fr"><div class="sv">${siteSVG(d.t,1,true)}</div></div>${pre?`<p>${pre}</p>`:''}<p>${what} Доход начнётся с конца текущей эпохи.</p>${builds.length>1?`<p>Также достроено: ${builds.slice(0,-1).map(x=>`${BN[x.t]} — ${S.regions[x.r].name}`).join(', ')}.</p>`:''}${riteTxt?`<p>${riteTxt}</p>`:''}<button class="btn gold" id="mOk">Отлично</button></div>`,()=>{$('#mOk').onclick=()=>{closeModal();after();};});
 }
-window.__SNY={get S(){return S},E,beginLevel,selectRegion,render,tickSites,resumeGame,closeModal,showEvent};
+window.__SNY={get S(){return S},E,beginLevel,startLevel,showCodex,selectRegion,render,tickSites,resumeGame,closeModal,showEvent};
 setInterval(tickSites,1000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)tickSites();else saveGame();});
 /* ===== save the running cycle (so construction keeps going while the app is closed) ===== */
